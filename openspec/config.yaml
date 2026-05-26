@@ -1,0 +1,58 @@
+schema: spec-driven
+
+context: |
+  Tech stack: Java 25, Maven Wrapper, Spring Boot 4.0.6, Spring AI 2.0.0-M6, Spring Web MVC, Spring Data JPA, H2/MySQL runtime drivers, Lombok.
+  Architecture: Single-module Spring Boot application with package-by-feature not yet established; current code is bootstrap-only with one application class and no controller/service/repository/entity layers implemented.
+  Testing: Maven test lifecycle via ./mvnw test; JUnit 5 and Spring Boot test starters are present; current suite contains one @SpringBootTest context-load test; no coverage plugin detected.
+  Style: Lombok annotation processing is configured in maven-compiler-plugin; no dedicated formatter, linter, static analysis, or CI workflow files were detected.
+
+testing:
+  strict_tdd: true
+  primary_test_command: "./mvnw test"
+  build_command: "./mvnw verify"
+  coverage:
+    available: false
+    command: ""
+    notes: "No JaCoCo or other coverage plugin detected in pom.xml."
+  layers:
+    - name: application-context
+      framework: "JUnit 5 + Spring Boot Test"
+      command: "./mvnw test"
+      evidence: "src/test/java/com/ironhack/nightoutai/NightOutAiApplicationTests.java"
+  quality:
+    typecheck:
+      available: true
+      command: "./mvnw test"
+      notes: "Java compilation runs through Maven lifecycle and maven-compiler-plugin."
+    lint:
+      available: false
+      command: ""
+      notes: "No Checkstyle, PMD, SpotBugs, or similar plugin detected."
+    format:
+      available: false
+      command: ""
+      notes: "No Spotless, formatter plugin, or formatting config detected."
+  ci:
+    available: false
+    notes: "No .github/workflows or other CI config files detected in the repository."
+
+rules:
+  proposal:
+    - Include rollback plan for risky changes.
+  specs:
+    - Use Given/When/Then for scenarios.
+    - Use RFC 2119 keywords (MUST, SHALL, SHOULD, MAY).
+  design:
+    - Document architecture decisions with rationale.
+  tasks:
+    - Group by phase and keep tasks reviewable in one session.
+  apply:
+    - Follow existing Spring Boot and Maven patterns already present in the repository.
+    tdd: true
+    test_command: "./mvnw test"
+  verify:
+    test_command: "./mvnw test"
+    build_command: "./mvnw verify"
+    coverage_threshold: 0
+  archive:
+    - Warn before merging destructive deltas.
