@@ -1,0 +1,13 @@
+spring:
+  datasource:
+    url: jdbc:mysql://localhost:3306/nightout_db?allowPublicKeyRetrieval=true&useSSL=false
+    username: root
+    password: Goku58#.
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  jpa:
+    hibernate:
+      ddl-auto: create-drop
+    show-sql: true
+  ai:
+    openai:
+      api-key: ${OPENAI_API_KEY}

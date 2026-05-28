@@ -30,12 +30,12 @@ Esta guía existe para que un developer pueda entrar al repo, entender el contex
 
 ## Flujo recomendado por issue
 
-1. **Entender**: resumí con tus palabras qué pide la issue.
-2. **Leer**: revisá spec + design + task lines relevantes.
-3. **Probar en rojo**: escribí o ejecutá los tests que deben fallar primero.
-4. **Implementar**: resolvé solo el alcance de la issue.
+1. **Entender**: resume con tus palabras qué pide la issue.
+2. **Leer**: revisa spec + design + task lines relevantes.
+3. **Probar en rojo**: escribe o ejecuta los tests que deben fallar primero.
+4. **Implementar**: resuelve solo el alcance de la issue.
 5. **Verificar**: `./mvnw test` y, cuando toque, `./mvnw verify`.
-6. **Documentar**: actualizá docs si cambió algo visible.
+6. **Documentar**: actualiza docs si cambió algo visible.
 
 ## Setup mínimo esperado
 
