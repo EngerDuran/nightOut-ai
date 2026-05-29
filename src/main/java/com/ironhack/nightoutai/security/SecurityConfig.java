@@ -62,15 +62,20 @@ public class SecurityConfig {
         // set the URL that the filter should process
         customAuthenticationFilter.setFilterProcessesUrl("/api/login");
 
-
         http
                 .csrf(AbstractHttpConfigurer::disable)
                 .sessionManagement(session -> session
                         .sessionCreationPolicy(STATELESS))
                 .authorizeHttpRequests((requests) -> requests
-                        .requestMatchers("/api/login/**").permitAll()
-                        .requestMatchers("/api/greet/**").permitAll()
-                        .anyRequest().authenticated());
+                        //.requestMatchers("/api/login/**").permitAll()// public endpoint, we could add more if we wanted to
+                        //.requestMatchers("/api/greet").permitAll()
+                        //.requestMatchers("/api/greet/personal").hasAnyAuthority("ROLE_USER")
+                        //.requestMatchers(GET, "/api/users").hasAnyAuthority("ROLE_USER", "ROLE_ADMIN")
+                        //.requestMatchers(POST, "/api/users").hasAnyAuthority("ROLE_ADMIN")
+                        //.requestMatchers(POST, "/api/roles").hasAnyAuthority("ROLE_ADMIN")
+                        //.requestMatchers(POST, "/api/roles/add-to-user").hasAnyAuthority("ROLE_ADMIN")
+                        //.anyRequest().authenticated()); // any other endpoints require authentication
+                        .anyRequest().permitAll());
 
         // add the custom authentication filter to the http security object
         http.addFilter(customAuthenticationFilter);
