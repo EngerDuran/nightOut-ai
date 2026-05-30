@@ -14,6 +14,7 @@ import static jakarta.persistence.FetchType.EAGER;
  * Entity class for representing a User in the database
  */
 @Entity
+@Table(name = "users")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
