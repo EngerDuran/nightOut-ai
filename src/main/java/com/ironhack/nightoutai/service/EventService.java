@@ -42,4 +42,25 @@ public class EventService {
         }
         eventRepository.deleteById(id);
     }
+
+    public Event updateEvent(Long id, Event event) {
+
+       // Buscamos si el evento existe
+        Event existingEvent = findById(id);
+
+        validateEventDate(event.getDate());
+
+        existingEvent.setName(event.getName());
+        existingEvent.setDate(event.getDate());
+        existingEvent.setStatus(event.getStatus());
+        existingEvent.setVenue(event.getVenue());
+
+        return eventRepository.save(existingEvent);
+    }
+
+    private void validateEventDate(LocalDateTime date) {
+        if (date.isBefore(LocalDateTime.now())) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Event date cannot be in the past");
+        }
+    }
 }
