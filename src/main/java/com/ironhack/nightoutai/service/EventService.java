@@ -16,10 +16,9 @@ public class EventService {
     private final EventRepository eventRepository;
 
     public Event addEvent(Event event) {
-        if (event.getDate().isBefore(LocalDateTime.now())) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Event date cannot be in the past");
-        }
-       return eventRepository.save(event);
+        // Validamos la fecha del evento
+        validateEventDate(event.getDate());
+        return eventRepository.save(event);
     }
 
     public List<Event> getAll() {
@@ -44,10 +43,10 @@ public class EventService {
     }
 
     public Event updateEvent(Long id, Event event) {
-
-       // Buscamos si el evento existe
+        // Buscamos si el evento existe
         Event existingEvent = findById(id);
 
+        // validamos la fecha del evento
         validateEventDate(event.getDate());
 
         existingEvent.setName(event.getName());
@@ -58,9 +57,10 @@ public class EventService {
         return eventRepository.save(existingEvent);
     }
 
+    // Validación de fechas
     private void validateEventDate(LocalDateTime date) {
         if (date.isBefore(LocalDateTime.now())) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Event date cannot be in the past");
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "La fecha del evento no puede ser anterior");
         }
     }
 }

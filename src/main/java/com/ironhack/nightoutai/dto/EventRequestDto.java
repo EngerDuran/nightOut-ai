@@ -16,5 +16,5 @@ public class EventRequestDto {
     private String name;
     private LocalDateTime date;
     private EventStatus status;
-    private Venue venue;
+    private Long venueId;
 }

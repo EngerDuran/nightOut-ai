@@ -7,8 +7,9 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class VenueRequestDTO {
-    private String name;
-    private String location;
-    private Integer capacity;
+public class TicketRequestDto {
+    // El evento al que pertenece este ticket (se envía como ID)
+    private Long eventId;
+    private double price;
+
 }
