@@ -17,22 +17,13 @@ public class UserController {
 
     private final UserService userService;
 
-    /**
-     * Get a list of all users
-     *
-     * @return list of all users
-     */
     @GetMapping("/users")
     @ResponseStatus(HttpStatus.OK)
     public List<User> getUsers() {
         return userService.getUsers();
     }
 
-    /**
-     * Save a new user
-     *
-     * @param user the user to be saved
-     */
+
     @PostMapping("/users")
     @ResponseStatus(HttpStatus.CREATED)
     public void saveUser(@RequestBody User user) {
