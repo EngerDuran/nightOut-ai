@@ -18,9 +18,19 @@ public class Event {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    private int totalCapacity;
+    private int soldTickets;
+
+
     private String name;
     private LocalDateTime date;
     private EventStatus status;
+
+    // calcula cupos disponibles
+    //Encapsulamiento en el modelo, para dejar el servicio más limpio
+    public int getAvailableSeats() {
+        return totalCapacity - soldTickets;
+    }
 
     @ManyToOne
     @JoinColumn(name = "venue_id")

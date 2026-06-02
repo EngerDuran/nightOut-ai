@@ -3,7 +3,9 @@ package com.ironhack.nightoutai.service;
 import com.ironhack.nightoutai.dto.TicketRequestDto;
 import com.ironhack.nightoutai.model.Event;
 import com.ironhack.nightoutai.model.Ticket;
+import com.ironhack.nightoutai.repository.EventRepository;
 import com.ironhack.nightoutai.repository.TicketRepository;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -17,10 +19,33 @@ import java.util.List;
 public class TicketService {
     private final TicketRepository ticketRepository;
     private final EventService eventService;
+    private final EventRepository eventRepository;
 
+    @Transactional
+    public Ticket addTicket(TicketRequestDto dto) {
+    //Bloqueamos el evento(Hasta que el metodo termine nadie lo usa)
+    Event event = eventRepository.findByIdForUpdate(dto.getEventId())
+            .orElseThrow(() -> new ResponseStatusException(
+                    HttpStatus.NOT_FOUND, "El evento no encontrado"));
 
-    public Ticket addTicket(Ticket ticket) {
+        //Validaciones de negocio
+        if (event.getAvailableSeats () <= 0) {
+            throw new ResponseStatusException(
+                    HttpStatus.BAD_REQUEST, "No hay cupos disponibles");
+        }
+
+        //Incrementamos el contador de cupos
+        event.setSoldTickets(event.getSoldTickets() + 1);
+        eventRepository.save(event);
+
+        //Creamos el ticket
+        Ticket ticket = new Ticket();
+        ticket.setPrice(dto.getPrice());
+        ticket.setEvent(event);
+
+        //Retornamos el ticket guardado
         return ticketRepository.save(ticket);
+
     }
 
     public List<Ticket> getAllTickets() {
@@ -35,11 +60,16 @@ public class TicketService {
     }
 
     public void deleteTicket(Long id) {
-        if (!ticketRepository.existsById(id)) {
-            throw new ResponseStatusException(
-                    HttpStatus.NOT_FOUND, "El ticket no existe");
-        }
-        ticketRepository.deleteById(id);
+        Ticket ticket = ticketRepository.findById(id)
+                .orElseThrow(() -> new ResponseStatusException(
+                        HttpStatus.NOT_FOUND, "El evento no encontrado"));
+
+        Event event = ticket.getEvent();
+
+        //Decrementamos el contador de cupos
+        event.setSoldTickets(event.getSoldTickets() - 1);
+        eventRepository.save(event);
+        ticketRepository.delete(ticket);
     }
 
     //Primero verifica si el ticket existe, luego guarda la versión actualizada.

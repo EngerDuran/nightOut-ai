@@ -38,7 +38,7 @@ public class TicketController {
 
         ticket.setPrice(dto.getPrice());
         ticket.setEvent(event);
-        return ResponseEntity.status(HttpStatus.CREATED).body(ticketService.addTicket(ticket));
+        return ResponseEntity.status(HttpStatus.CREATED).body(ticketService.addTicket(dto));
     }
 
 
