@@ -67,9 +67,9 @@ public class SecurityConfig {
                 .sessionManagement(session -> session
                         .sessionCreationPolicy(STATELESS))
                 .authorizeHttpRequests((requests) -> requests
-                        .requestMatchers("/api/login/**").permitAll()// public endpoint
+                        .requestMatchers("/api/login/").permitAll()// public endpoint
                         .requestMatchers(GET, "/api/users").hasAnyAuthority("ROLE_USER", "ROLE_ADMIN")
-                        .requestMatchers(POST, "/api/users").hasAnyAuthority("ROLE_ADMIN")
+                        .requestMatchers(POST, "/api/users").permitAll()//("ROLE_ADMIN")
                         .requestMatchers(POST, "/api/roles").hasAnyAuthority("ROLE_ADMIN")
                         .anyRequest().authenticated());
 
