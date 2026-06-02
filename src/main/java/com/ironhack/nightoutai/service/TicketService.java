@@ -28,6 +28,12 @@ public class TicketService {
             .orElseThrow(() -> new ResponseStatusException(
                     HttpStatus.NOT_FOUND, "El evento no encontrado"));
 
+        // Validación de fecha
+        if (event.getDate().isBefore(java.time.LocalDateTime.now())) {
+            throw new ResponseStatusException(
+                    HttpStatus.BAD_REQUEST, "No se puede comprar entradas para eventos pasados");
+        }
+
         //Validaciones de negocio
         if (event.getAvailableSeats () <= 0) {
             throw new ResponseStatusException(
