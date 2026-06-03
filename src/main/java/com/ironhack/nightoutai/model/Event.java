@@ -1,5 +1,6 @@
 package com.ironhack.nightoutai.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.ironhack.nightoutai.enums.EventStatus;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -34,5 +35,6 @@ public class Event {
 
     @ManyToOne
     @JoinColumn(name = "venue_id")
+    @JsonIgnore
     private Venue venue;
 }

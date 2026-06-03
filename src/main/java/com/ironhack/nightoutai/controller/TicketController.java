@@ -16,7 +16,7 @@ import java.util.List;
 
 
 @RestController
-@RequestMapping("/tickets")
+@RequestMapping("/api/tickets")
 @RequiredArgsConstructor
 public class TicketController {
 
@@ -28,17 +28,11 @@ public class TicketController {
 
     @PostMapping
     public ResponseEntity<Ticket> createTicket(@RequestBody TicketRequestDto dto) {
-        // Busca el Evento mediante el ID enviado en el DTO
-        Event event = eventService.findById(dto.getEventId());
+        // El servicio ya se encarga de la lógica, transaccionalidad y las excepciones.
+        Ticket createdTicket = ticketService.addTicket(dto);
 
-        //Validamos que todavía quepan personas en el recinto
-        venueService.validateCapacity(event.getVenue(), 1);
 
-        Ticket ticket = new Ticket();
-
-        ticket.setPrice(dto.getPrice());
-        ticket.setEvent(event);
-        return ResponseEntity.status(HttpStatus.CREATED).body(ticketService.addTicket(dto));
+        return ResponseEntity.status(HttpStatus.CREATED).body(createdTicket);
     }
 
 

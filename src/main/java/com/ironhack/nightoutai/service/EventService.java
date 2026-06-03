@@ -18,6 +18,7 @@ public class EventService {
     public Event addEvent(Event event) {
         // Validamos la fecha del evento
         validateEventDate(event.getDate());
+        event.setTotalCapacity(event.getVenue().getCapacity());
         return eventRepository.save(event);
     }
 
