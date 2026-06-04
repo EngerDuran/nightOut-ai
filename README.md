@@ -1,12 +1,8 @@
 # NightOut AI
 
-Backend REST API para descubrir eventos nocturnos, comprar o cancelar entradas según aforo y saldo, y recibir recomendaciones reales apoyadas por Spring AI.
-
-## Estado actual
-
-- Estado del repo: bootstrap Spring Boot + planificación SDD completa
-- Estado del MVP: definido, documentado y dividido en issues
-- Próxima ejecución recomendada: **Issue #1 — Base técnica, configuración y autenticación JWT**
+--Backend REST API para descubrir eventos nocturnos
+--Se usará para comprar y cancelar entradas según aforo y saldo
+--recibir recomendaciones reales apoyadas por Spring AI.
 
 ## Descripción del proyecto
 
@@ -31,7 +27,7 @@ NightOut AI es el proyecto final individual de Ironhack para Java Backend Develo
 - Java 25
 - Maven Wrapper (`./mvnw`)
 - MySQL para el entorno objetivo
-- credenciales válidas del proveedor configurado para Spring AI
+- Spring AI
 
 ### Arranque rápido
 
@@ -50,22 +46,24 @@ NightOut AI es el proyecto final individual de Ironhack para Java Backend Develo
 | API | Spring Web MVC |
 | Seguridad | Spring Security + JWT |
 | Persistencia | Spring Data JPA + MySQL |
-| Testing | JUnit 5 + Spring Boot Test |
 | IA | Spring AI 2.0.0-M6 |
 | Build | Maven Wrapper |
 | Planificación | OpenSpec + GitHub Issues + GitHub Project |
 
-## Estructura de controladores y rutas
 
-La estructura objetivo del MVP es **package-by-feature**:
 
-- `auth/` — registro, login y JWT
-- `users/` — usuario, saldo y perfil mínimo
-- `venues/` — gestión de salas
-- `events/` — catálogo y administración de eventos
-- `tickets/` — compra/cancelación y herencia JPA
-- `recommendations/` — recomendación con Spring AI
-- `shared/` — errores, enums y contratos comunes
+## Estructura del Proyecto
+El proyecto está organizado siguiendo el patrón de arquitectura **Model-View-Controller (MVC) por capas**
+Esto facilita la separación de responsabilidades que veremos a continuación:
+
+* `controller/` — Controladores REST que gestionan las peticiones HTTP y definen los endpoints.
+* `service/` — Capa de lógica de negocio donde reside el procesamiento de los datos.
+* `repository/` — Interfaces de acceso a datos utilizando Spring Data JPA.
+* `model/` — Definición de las entidades JPA y sus relaciones (incluye herencia de tickets).
+* `dto/` — Objetos de transferencia de datos para el intercambio de información.
+* `security/` — Configuración de Spring Security, filtros JWT y lógica de autenticación.
+* `enums/` — Enumeraciones para estados y tipos de datos.
+* `shared/` — Utilidades y lógica común compartida en la aplicación.
 
 ## Plan de ejecución
 
@@ -113,6 +111,8 @@ Leé `CONTRIBUTING.md` para el flujo exacto.
 - cupones/promociones
 - dashboards administrativos
 - recomendaciones más avanzadas o conversacionales
+- Implementar MCP
+- implementar RedTests
 - mejoras de concurrencia más allá del MVP
 
 ## Recursos
@@ -123,5 +123,5 @@ Leé `CONTRIBUTING.md` para el flujo exacto.
 
 ## Miembros del equipo
 
-- Estudiante responsable: Enger Duran
+- Estudiante responsable: Enger Durán
 - Tipo de proyecto: individual
