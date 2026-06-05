@@ -69,3 +69,12 @@ Authorization: Bearer {{auth_token}}
 GET localhost:8080/chat/chatbot/sc001?message="hola what is my name?"
 Authorization: Bearer {{auth_token}}
 
+### Prueba de métodos creados
+
+### Prueba 1: Búsqueda general de eventos
+GET localhost:8080/event-chat/recommend?message= "Que eventos tienes disponibles en total?"
+Authorization: Bearer {{auth_token}}
+
+### Prueba 2: Búsqueda por ubicación (Debería usar getEventsByLocation)
+GET http://localhost:8080/event-chat/recommend?message="Voy a estar por Madrid este fin de semana, recomiéndame algo chulo."
+Authorization: Bearer {{auth_token}}

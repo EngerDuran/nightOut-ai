@@ -20,6 +20,8 @@ public interface EventRepository extends JpaRepository<Event, Long> {
     @Query("SELECT e FROM Event e WHERE e.id = :id")
     Optional<Event> findByIdForUpdate(Long id);
 
+    List<Event> findByVenueLocationIgnoreCase(String location);
+
     Optional<Event> findByName(String name);
     Optional<Event> findById(Long id);
     List<Event> findByVenue(Venue venue);
