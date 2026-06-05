@@ -1,4 +1,4 @@
-### 1. LOGIN - Obtener token
+#### 1. LOGIN - Obtener token
 POST http://localhost:8080/api/login
 Content-Type: application/json
 
@@ -11,49 +11,61 @@ Content-Type: application/json
     client.global.set("auth_token", response.body.access_token);
 %}
 
-### 2. Crear Venue
-POST http://localhost:8080/api/venues
+#### 2. Crear Venue
+#POST http://localhost:8080/api/venues
+#Authorization: Bearer {{auth_token}}
+#Content-Type: application/json
+#
+#{
+#  "name": "Wi zink center",
+#  "location": "Madrid",
+#  "capacity": 10000
+#}
+#
+#> {%
+#    client.global.set("venue_id", response.body.id);
+#%}
+#
+#### 3. Guarda el token de la respuesta anterior y úsalo aquí
+#GET http://localhost:8080/api/users
+#Authorization: Bearer {{auth_token}}
+#
+#
+#### 4. Crear Event (con el venueId del paso anterior)
+#POST http://localhost:8080/api/events
+#Authorization: Bearer {{auth_token}}
+#Content-Type: application/json
+#
+#{
+#  "name": "Rock Fest",
+#  "date": "2026-06-10T20:00:00",
+#  "status": "SCHEDULED",
+#  "venueId": {{venue_id}}
+#}
+#
+#> {%
+#    // Esto guarda el id del evento recién creado en una variable llamada event_id
+#    client.global.set("event_id", response.body.id);
+#%}
+#
+#### 5. Crear ticket usando el token
+#POST http://localhost:8080/api/tickets
+#Authorization: Bearer {{auth_token}}
+#Content-Type: application/json
+#
+#{
+#  "eventId": {{event_id}},
+#  "price": 50.0
+#}
+###
+GET http://localhost:8080/chat/ask?question="me llamo ENGER"
 Authorization: Bearer {{auth_token}}
-Content-Type: application/json
 
-{
-  "name": "Wi zink center",
-  "location": "Madrid",
-  "capacity": 10000
-}
-
-> {%
-    client.global.set("venue_id", response.body.id);
-%}
-
-### 3. Guarda el token de la respuesta anterior y úsalo aquí
-GET http://localhost:8080/api/users
+### chatbot
+GET localhost:8080/chat/chatbot/sc001?message="hola my name is Enger, nice to meet you"
 Authorization: Bearer {{auth_token}}
 
-
-### 4. Crear Event (con el venueId del paso anterior)
-POST http://localhost:8080/api/events
+### chatbot 2
+GET localhost:8080/chat/chatbot/sc001?message="hola what is my name?"
 Authorization: Bearer {{auth_token}}
-Content-Type: application/json
 
-{
-  "name": "Rock Fest",
-  "date": "2026-06-10T20:00:00",
-  "status": "SCHEDULED",
-  "venueId": {{venue_id}}
-}
-
-> {%
-    // Esto guarda el id del evento recién creado en una variable llamada event_id
-    client.global.set("event_id", response.body.id);
-%}
-
-### 5. Crear ticket usando el token
-POST http://localhost:8080/api/tickets
-Authorization: Bearer {{auth_token}}
-Content-Type: application/json
-
-{
-  "eventId": {{event_id}},
-  "price": 50.0
-}
