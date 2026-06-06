@@ -1,7 +1,7 @@
 package com.ironhack.nightoutai.controller;
 
 
-import com.ironhack.nightoutai.dto.EventRequestDto;
+import com.ironhack.nightoutai.dto.EventRequestDTO;
 import com.ironhack.nightoutai.model.Event;
 import com.ironhack.nightoutai.model.Venue;
 import com.ironhack.nightoutai.service.EventService;
@@ -10,7 +10,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 
@@ -22,7 +21,7 @@ public class EventController {
     private final VenueService venueService;
 
     @PostMapping
-    public ResponseEntity<Event> addEvent(@RequestBody EventRequestDto dto) {
+    public ResponseEntity<Event> addEvent(@RequestBody EventRequestDTO dto) {
         //Buscamos el Venue en la base de datos usando el ID
         Venue venue = venueService.findById(dto.getVenueId());
 

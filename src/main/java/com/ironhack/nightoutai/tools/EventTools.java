@@ -29,4 +29,11 @@ public class EventTools {
 
         return eventRepository.findByVenueLocationIgnoreCase(location);
     }
+
+    @Tool(description = "Search and return a list of events filtered by a specific music genre.")
+    public List<Event> getEventsByGenre(
+            @ToolParam(description = "The musical genre the user wants to listen to. Example: 'Reggaeton', 'Rock', 'Electronic'")
+            String genre) {
+    return  eventRepository.findByGenreIgnoreCase(genre);
+    }
 }

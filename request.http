@@ -72,7 +72,7 @@ Authorization: Bearer {{auth_token}}
 ### Prueba de métodos creados
 
 ### Prueba 1: Búsqueda general de eventos
-GET localhost:8080/event-chat/recommend?message= "Que eventos tienes disponibles en total?"
+GET localhost:8080/event-chat/recommend?message= "Hola, quiero salir de fiesta por Madrid a escuchar reggaetón, pero solo me quedan 5 euros en la cartera."
 Authorization: Bearer {{auth_token}}
 
 ### Prueba 2: Búsqueda por ubicación (Debería usar getEventsByLocation)

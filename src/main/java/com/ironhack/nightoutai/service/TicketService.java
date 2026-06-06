@@ -1,6 +1,6 @@
 package com.ironhack.nightoutai.service;
 
-import com.ironhack.nightoutai.dto.TicketRequestDto;
+import com.ironhack.nightoutai.dto.TicketRequestDTO;
 import com.ironhack.nightoutai.model.Event;
 import com.ironhack.nightoutai.model.Ticket;
 import com.ironhack.nightoutai.repository.EventRepository;
@@ -22,7 +22,7 @@ public class TicketService {
     private final EventRepository eventRepository;
 
     @Transactional
-    public Ticket addTicket(TicketRequestDto dto) {
+    public Ticket addTicket(TicketRequestDTO dto) {
     //Bloqueamos el evento(Hasta que el metodo termine nadie lo usa)
     Event event = eventRepository.findByIdForUpdate(dto.getEventId())
             .orElseThrow(() -> new ResponseStatusException(
@@ -79,7 +79,7 @@ public class TicketService {
     }
 
     //Primero verifica si el ticket existe, luego guarda la versión actualizada.
-    public Ticket updateTicket(Long id, TicketRequestDto dto) {
+    public Ticket updateTicket(Long id, TicketRequestDTO dto) {
 
         //miramos si el ticket existe
         Ticket existingTicket = findById(id);

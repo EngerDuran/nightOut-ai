@@ -26,6 +26,8 @@ public class Event {
     private String name;
     private LocalDateTime date;
     private EventStatus status;
+    private String genre;
+    private String dressCode;
 
     // calcula cupos disponibles
     //Encapsulamiento en el modelo, para dejar el servicio más limpio

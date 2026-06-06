@@ -1,7 +1,6 @@
 package com.ironhack.nightoutai.controller;
 
-import com.ironhack.nightoutai.dto.TicketRequestDto;
-import com.ironhack.nightoutai.model.Event;
+import com.ironhack.nightoutai.dto.TicketRequestDTO;
 import com.ironhack.nightoutai.model.Ticket;
 import com.ironhack.nightoutai.service.EventService;
 import com.ironhack.nightoutai.service.TicketService;
@@ -10,7 +9,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 
@@ -27,7 +25,7 @@ public class TicketController {
 
 
     @PostMapping
-    public ResponseEntity<Ticket> createTicket(@RequestBody TicketRequestDto dto) {
+    public ResponseEntity<Ticket> createTicket(@RequestBody TicketRequestDTO dto) {
         // El servicio ya se encarga de la lógica, transaccionalidad y las excepciones.
         Ticket createdTicket = ticketService.addTicket(dto);
 
@@ -48,7 +46,7 @@ public class TicketController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Ticket> updateTicket(@PathVariable Long id, @RequestBody TicketRequestDto dto ) {
+    public ResponseEntity<Ticket> updateTicket(@PathVariable Long id, @RequestBody TicketRequestDTO dto ) {
         return ResponseEntity.ok(ticketService.updateTicket(id, dto));
     }
 

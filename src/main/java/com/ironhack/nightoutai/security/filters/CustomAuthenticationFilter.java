@@ -3,7 +3,7 @@ package com.ironhack.nightoutai.security.filters;
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.ironhack.nightoutai.dto.LoginRequest;
+import com.ironhack.nightoutai.dto.LoginRequestDTO;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -50,7 +50,7 @@ public class CustomAuthenticationFilter extends UsernamePasswordAuthenticationFi
     public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response) throws AuthenticationException {
         try {
             ObjectMapper mapper = new ObjectMapper();
-            LoginRequest loginRequest = mapper.readValue(request.getInputStream(), LoginRequest.class);
+            LoginRequestDTO loginRequest = mapper.readValue(request.getInputStream(), LoginRequestDTO.class);
 
             // Creating an Authentication token with given username and password
             UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(
