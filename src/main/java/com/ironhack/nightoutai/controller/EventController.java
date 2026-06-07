@@ -32,6 +32,8 @@ public class EventController {
         event.setName(dto.getName());
         event.setDate(dto.getDate());
         event.setStatus(dto.getStatus());
+        event.setGenre(dto.getGenre());
+        event.setDressCode(dto.getDressCode());
         event.setVenue(venue);
 
         return ResponseEntity.status(HttpStatus.CREATED).body(eventService.addEvent(event));

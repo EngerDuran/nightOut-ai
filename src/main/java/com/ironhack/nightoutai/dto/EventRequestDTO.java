@@ -16,4 +16,6 @@ public class EventRequestDTO {
     private LocalDateTime date;
     private EventStatus status;
     private Long venueId;
+    private String genre;
+    private String dressCode;
 }
