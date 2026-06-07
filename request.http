@@ -3,8 +3,8 @@ POST http://localhost:8080/api/login
 Content-Type: application/json
 
 {
-  "username": "james",
-  "password": "1234"
+  "username": "carlos.perez@gmail.com",
+  "password": "Carlos2026!"
 }
 
 > {%
@@ -72,7 +72,7 @@ Authorization: Bearer {{auth_token}}
 ### Prueba de métodos creados
 
 ### Prueba 1: Búsqueda general de eventos
-GET localhost:8080/event-chat/recommend?message= "Reggaeton, por moncloa y tengo 100 para toda la noche"
+GET localhost:8080/event-chat/recommend?message= "quiero ir de fiesta y bailar Reggaeton, por Madrid tengo 100 para toda la noche"
 Authorization: Bearer {{auth_token}}
 
 ### Prueba 2: Búsqueda por ubicación (Debería usar getEventsByLocation)

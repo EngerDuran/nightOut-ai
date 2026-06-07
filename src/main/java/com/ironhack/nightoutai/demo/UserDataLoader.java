@@ -29,20 +29,26 @@ public class UserDataLoader implements CommandLineRunner {
             return;
         }
 
-        log.info("Seeding users and roles...");
+        log.info("Seeding users and roles with high-fidelity data...");
         roleService.save(new Role("ROLE_USER"));
         roleService.save(new Role("ROLE_ADMIN"));
 
-        userService.saveUser(new User("John Doe", "john", "1234"));
-        userService.saveUser(new User("James Smith", "james", "1234"));
-        userService.saveUser(new User("Jane Carry", "jane", "1234"));
-        userService.saveUser(new User("Chris Anderson", "chris", "1234"));
+        // 🎫 Clientes Generales y VIP
+        userService.saveUser(new User("Carlos Pérez", "carlos.perez@gmail.com", "Carlos2026!"));
+        userService.saveUser(new User("Lucía Ortiz", "lucia.ortiz@gmail.com", "LuciaO99!"));
 
-        roleService.addRoleToUser("john", "ROLE_USER");
-        roleService.addRoleToUser("james", "ROLE_ADMIN");
-        roleService.addRoleToUser("jane", "ROLE_USER");
-        roleService.addRoleToUser("chris", "ROLE_ADMIN");
-        roleService.addRoleToUser("chris", "ROLE_USER");
-        log.info("User seeding complete.");
+        // 👑 Administradores del Club
+        userService.saveUser(new User("Alejandro Garrido", "alex.garrido@nightout.ai", "Kapital2026!"));
+        userService.saveUser(new User("Sara Villanueva", "sara.villanueva@nightout.ai", "SaraRrpp2026!"));
+
+        // Asignación de Roles usando los nuevos emails corporativoso personales
+        roleService.addRoleToUser("carlos.perez@gmail.com", "ROLE_USER");
+        roleService.addRoleToUser("lucia.ortiz@gmail.com", "ROLE_USER");
+
+        roleService.addRoleToUser("alex.garrido@nightout.ai", "ROLE_ADMIN");
+        roleService.addRoleToUser("sara.villanueva@nightout.ai", "ROLE_ADMIN");
+        roleService.addRoleToUser("sara.villanueva@nightout.ai", "ROLE_USER"); // Multi-role de prueba
+
+        log.info("User seeding complete. Data ready for a real demo!");
     }
 }

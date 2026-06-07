@@ -1,7 +1,6 @@
 package com.ironhack.nightoutai.controller;
 
 import com.ironhack.nightoutai.dto.BookingRequestDTO;
-import com.ironhack.nightoutai.dto.BookingRequestDTO;
 import com.ironhack.nightoutai.model.Booking;
 import com.ironhack.nightoutai.service.BookingService;
 import lombok.RequiredArgsConstructor;

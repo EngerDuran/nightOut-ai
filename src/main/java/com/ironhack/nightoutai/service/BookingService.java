@@ -34,13 +34,13 @@ public class BookingService {
     public Booking createBooking(Long ticketId, Integer quantity, String paymentMethod) {
         // Buscar el ticket con excepción limpia
         Ticket ticket = ticketRepository.findById(ticketId)
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Ticket no encontrado con ID: " + ticketId));
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Ticket not found with ID:" + ticketId));
 
         Event event = ticket.getEvent();
 
         // Validar aforo
         if (event.getSoldTickets() + quantity > event.getTotalCapacity()) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "¡SOLD OUT! No quedan suficientes entradas disponibles.");
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "SOLD OUT! Not enough tickets left.");
         }
 
         // Actualizar contador del evento
@@ -77,7 +77,7 @@ public class BookingService {
     @Transactional(readOnly = true)
     public Booking getBookingById(Long id) {
         return bookingRepository.findById(id)
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Reserva no encontrada con ID: " + id));
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Reservation not found with ID: " + id));
     }
 
     // 4. ACTUALIZAR RESERVA (PUT)
@@ -91,7 +91,7 @@ public class BookingService {
             int diferencia = request.getQuantity() - booking.getQuantity();
 
             if (event.getSoldTickets() + diferencia > event.getTotalCapacity()) {
-                throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "No se puede actualizar: supera el aforo máximo.");
+                throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "It cannot be updated: it exceeds the maximum capacity.");
             }
 
             event.setSoldTickets(event.getSoldTickets() + diferencia);

@@ -14,9 +14,7 @@ import org.springframework.stereotype.Service;
 @Slf4j
 public class RoleServiceImpl implements RoleService {
 
-
     private final UserRepository userRepository;
-
 
     private final RoleRepository roleRepository;
 
@@ -33,7 +31,8 @@ public class RoleServiceImpl implements RoleService {
     }
 
     /**
-     * Adds a role to the user with the given username
+     * Adds a role to the user with the given username.
+     * Validates that both the user and role exist before attempting to add the role.
      *
      * @param username the username of the user to add the role to
      * @param roleName the name of the role to be added
@@ -46,10 +45,23 @@ public class RoleServiceImpl implements RoleService {
         User user = userRepository.findByUsername(username);
         Role role = roleRepository.findByName(roleName);
 
-        // Add the role to the user's role collection
+        // validamos que el rol exista en el db
+        if (user == null) {
+            log.error("❌ User not found in database: {}", username);
+            return;
+        }
+
+        // Validamos que el rol exista en el db
+        if (role == null) {
+            log.error("❌ Role not found in database: {}", roleName);
+            return;
+        }
+
+        // agregamos el rol al usuario
         user.getRoles().add(role);
 
-        // Save the user to persist the changes
+        // guardamos el usuario
         userRepository.save(user);
+        log.info("✅ Role {} successfully added to user {}", roleName, username);
     }
 }

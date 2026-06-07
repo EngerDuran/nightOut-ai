@@ -54,6 +54,8 @@ public class EventService {
         existingEvent.setDate(event.getDate());
         existingEvent.setStatus(event.getStatus());
         existingEvent.setVenue(event.getVenue());
+        existingEvent.setGenre(event.getGenre());
+        existingEvent.setDressCode(event.getDressCode());
 
         return eventRepository.save(existingEvent);
     }

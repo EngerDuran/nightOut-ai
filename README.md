@@ -65,6 +65,48 @@ Esto facilita la separación de responsabilidades que veremos a continuación:
 * `enums/` — Enumeraciones para estados y tipos de datos.
 * `shared/` — Utilidades y lógica común compartida en la aplicación.
 
+## Estructura de controladores y rutas
+
+| Método | Ruta | Descripción | Autenticación |
+|--------|------|-------------|---------------|
+| POST | `/api/login` | Iniciar sesión y obtener token JWT | Pública |
+| POST | `/api/users` | Registrar nuevo usuario | Pública |
+| GET | `/api/users` | Listar usuarios | USER / ADMIN |
+| POST | `/api/roles` | Crear nuevo rol | ADMIN |
+| POST | `/api/roles/add-to-user` | Asignar rol a usuario | ADMIN |
+| GET | `/api/greet` | Saludo básico | Autenticado |
+| GET | `/api/greet/personal` | Saludo personalizado | Autenticado |
+| | **Salas (Venues)** | |
+| GET | `/api/venues` | Listar todas las salas | Autenticado |
+| GET | `/api/venues/{id}` | Ver sala por ID | Autenticado |
+| GET | `/api/venues/location/{location}` | Buscar salas por ubicación | Autenticado |
+| POST | `/api/venues` | Crear nueva sala | Autenticado |
+| PUT | `/api/venues/{id}` | Actualizar sala | Autenticado |
+| DELETE | `/api/venues/{id}` | Eliminar sala | Autenticado |
+| | **Eventos** | |
+| GET | `/api/events` | Listar todos los eventos | Autenticado |
+| GET | `/api/events/{id}` | Ver evento por ID | Autenticado |
+| POST | `/api/events` | Crear nuevo evento | Autenticado |
+| PUT | `/api/events/{id}` | Actualizar evento | Autenticado |
+| DELETE | `/api/events/{id}` | Eliminar evento | Autenticado |
+| | **Tickets** | |
+| GET | `/api/tickets` | Listar todos los tickets | Autenticado |
+| GET | `/api/tickets/{id}` | Ver ticket por ID | Autenticado |
+| POST | `/api/tickets` | Crear nuevo ticket | USER / ADMIN |
+| PUT | `/api/tickets/{id}` | Actualizar ticket | Autenticado |
+| DELETE | `/api/tickets/{id}` | Eliminar ticket | Autenticado |
+| | **Reservas (Bookings)** | |
+| POST | `/api/bookings` | Crear reserva de entradas | Autenticado |
+| GET | `/api/bookings` | Listar todas las reservas | Autenticado |
+| GET | `/api/bookings/{id}` | Ver reserva por ID | Autenticado |
+| PUT | `/api/bookings/{id}` | Actualizar reserva | Autenticado |
+| DELETE | `/api/bookings/{id}` | Cancelar reserva | Autenticado |
+| | **Spring AI — Chat** | |
+| GET | `/chat/ask?question=` | Preguntar a la IA | Autenticado |
+| GET | `/chat/chatbot/{id}?message=` | Chat con memoria conversacional | Autenticado |
+| | **Spring AI — RRPP Virtual** | |
+| GET | `/event-chat/recommend?message=` | Recomendación de eventos por RRPP virtual | Autenticado |
+
 ## Plan de ejecución
 
 ### Project e issues
