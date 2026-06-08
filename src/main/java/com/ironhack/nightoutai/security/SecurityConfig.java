@@ -72,6 +72,10 @@ public class SecurityConfig {
                         .requestMatchers(GET, "/api/users").hasAnyAuthority("ROLE_USER", "ROLE_ADMIN")
                         .requestMatchers(POST, "/api/users").permitAll()//("ROLE_ADMIN")
                         .requestMatchers(POST, "/api/roles").hasAnyAuthority("ROLE_ADMIN")
+
+                        //reglas para simular el Administrador del Club:
+                        .requestMatchers(POST, "/api/events").hasAnyAuthority("ROLE_ADMIN")
+                        .requestMatchers(GET, "/api/events").hasAnyAuthority("ROLE_USER", "ROLE_ADMIN")
                         .anyRequest().authenticated());
 
         // add the custom authentication filter to the http security object

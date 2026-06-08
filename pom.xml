@@ -102,6 +102,28 @@
             <groupId>org.springframework.ai</groupId>
             <artifactId>spring-ai-starter-model-chat-memory</artifactId>
         </dependency>
+
+        <!-- ============================================================
+             spring-boot-starter-mail
+             ============================================================
+             Esta dependencia incluye JavaMailSender, que es la forma
+             estándar de Spring Boot para enviar correos electrónicos
+             usando SMTP (Gmail, Outlook, etc.).
+
+             ¿Qué necesitas para que funcione?
+             1. Una cuenta de Gmail (o cualquier SMTP)
+             2. Configurar "Contraseña de aplicación" en Gmail (NO tu
+                contraseña normal)
+             3. Poner los datos en application.yaml (ver sección mail:)
+
+             ¿Cómo se usa?
+             Spring Boot crea automáticamente un bean JavaMailSender
+             que se inyecta donde lo necesites (en EmailService).
+             ============================================================ -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-mail</artifactId>
+        </dependency>
     </dependencies>
     <dependencyManagement>
         <dependencies>

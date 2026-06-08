@@ -7,7 +7,69 @@ spring:
   jpa:
     hibernate:
       ddl-auto: create-drop
-    show-sql: true
+    show-sql: false
   ai:
     openai:
       api-key: ${OPENAI_API_KEY}
+
+  # ============================================================
+  # CONFIGURACIÓN DE CORREO ELECTRÓNICO (SMTP)
+  # ============================================================
+  #
+  # ¿Qué es esto?
+  # Spring Boot usa estos datos para configurar JavaMailSender,
+  # que es el componente que envía los correos.
+  #
+  # ¿Qué necesito hacer?
+  # 1. Configurá las variables de entorno en tu sistema:
+  #    - MAIL_USERNAME: Tu correo de Gmail (ej: "tucuenta@gmail.com")
+  #    - MAIL_PASSWORD: Una "Contraseña de aplicación" de Gmail
+  #
+  # 2. ¿Cómo crear una Contraseña de aplicación en Gmail?
+  #    a) Andá a tu cuenta de Google → Seguridad
+  #    b) Activá la "Verificación en dos pasos" (si no la tenés)
+  #    c) Buscá "Contraseñas de aplicación"
+  #    d) Creá una para "Correo" y "Mac/Windows"
+  #    e) Google te da una contraseña de 16 caracteres
+  #    f) Ponela en la variable MAIL_PASSWORD
+  #
+  # 3. ¿Qué es host: smtp.gmail.com y port: 587?
+  #    Son los servidores SMTP de Gmail. El puerto 587 es
+  #    el estándar para STARTTLS (seguro). No los cambies.
+  #
+  # 4. ¿Y si no configuro nada? ¿La app falla?
+  #    No. La app arranca igual. El EmailService detecta
+  #    que no hay configuración y registra el error en DB.
+  #    Así podés ver en tu base de datos que "intentó enviar
+  #    un correo pero falló".
+  #
+  # 5. Para pruebas SIN enviar correos reales:
+  #    Dejá las variables sin configurar. El sistema igual
+  #    va a funcionar, solo que los correos quedarán como
+  #    "FAILED" en la base de datos. ¡Perfecto para la demo!
+  # ============================================================
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: ${MAIL_USERNAME:}
+    password: ${MAIL_PASSWORD:}
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+
+  # ============================================================
+  # CONFIGURACIÓN DE TAREAS PROGRAMADAS (@Scheduled)
+  # ============================================================
+  #
+  # Spring Boot puede ejecutar métodos automáticamente en un
+  # horario específico. Por ejemplo, "cada lunes a las 10 AM".
+  #
+  # Con esta propiedad, le decimos a Spring que sí, que vamos
+  # a usar @Scheduled en nuestro código.
+  # ============================================================
+  task:
+    scheduling:
+      enabled: true
