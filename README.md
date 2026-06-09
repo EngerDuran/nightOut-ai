@@ -10,7 +10,7 @@ Backend REST API para descubrir eventos nocturnos en Madrid, comprar entradas co
 
 ---
 
-## 📋 Índice
+## 📋 Índice:
 
 - [Descripción del proyecto](#-descripción-del-proyecto)
 - [Funcionalidades](#-funcionalidades)
@@ -26,7 +26,7 @@ Backend REST API para descubrir eventos nocturnos en Madrid, comprar entradas co
 
 ---
 
-## 🎯 Descripción del proyecto
+## 🎯 Descripción del proyecto:
 
 **NightOut AI** nace de una idea simple: ¿y si pudieras tener un relaciones públicas virtual que te recomiende planes de fiesta en Madrid según tus gustos, te apunte en las listas de invitados y te avise cuando haya eventos nuevos en tus sitios favoritos?
 
@@ -39,7 +39,7 @@ El proyecto simula una aplicación de vida nocturna para la comunidad de Madrid,
 
 ---
 
-## ✨ Funcionalidades
+## ✨ Funcionalidades:
 
 ### Autenticación y usuarios
 - Registro de usuarios con contraseña encriptada (BCrypt)
@@ -101,7 +101,7 @@ User ──── Notification (OneToMany)
 
 ---
 
-## 🛠 Tecnologías utilizadas
+## 🛠 Tecnologías utilizadas:
 
 | Área | Tecnología |
 |------|-----------|
@@ -118,7 +118,7 @@ User ──── Notification (OneToMany)
 
 ---
 
-## 🏗 Arquitectura del proyecto
+## 🏗 Arquitectura del proyecto:
 
 El proyecto sigue el patrón **MVC por capas**. Cada capa tiene una responsabilidad bien definida:
 
@@ -148,7 +148,7 @@ El proyecto sigue el patrón **MVC por capas**. Cada capa tiene una responsabili
 └─────────────────────────────────────────────────┘
 ```
 
-### Estructura de carpetas
+### Estructura de carpetas:
 
 ```
 src/main/java/com/ironhack/nightoutai/
@@ -168,7 +168,7 @@ src/main/java/com/ironhack/nightoutai/
 
 ---
 
-## 🌐 Estructura de la API
+## 🌐 Estructura de la API:
 
 ### Autenticación
 
@@ -240,7 +240,7 @@ src/main/java/com/ironhack/nightoutai/
 
 ---
 
-## 💾 Modelo de datos
+## 💾 Modelo de datos:
 
 ### Entidades y relaciones
 
@@ -318,7 +318,7 @@ Notification (notification)
 └── status (SENT, FAILED)
 ```
 
-### Estrategia de herencia
+### Estrategia de herencia:
 
 Los tickets usan **SINGLE_TABLE** porque:
 
@@ -335,7 +335,7 @@ Para la venta de entradas usé **bloqueo pesimista (`PESSIMISTIC_WRITE`)** en lu
 
 ---
 
-## ⚙️ Configuración y arranque
+## ⚙️ Configuración y arranque:
 
 ### Requisitos previos
 
@@ -357,7 +357,7 @@ export MAIL_USERNAME=tu_correo@gmail.com
 export MAIL_PASSWORD=tu_contraseña_de_aplicacion
 ```
 
-### Base de datos
+### Base de datos:
 
 ```sql
 CREATE DATABASE nightout_db;
@@ -383,7 +383,7 @@ Al arrancar, los DataLoaders siembran automáticamente:
 - **10 eventos** con géneros y dress codes
 - **20 tickets** (General + VIP por cada evento)
 
-### Usuarios de prueba
+### Usuarios de prueba:
 
 | Usuario | Contraseña | Rol |
 |---------|-----------|-----|
@@ -394,7 +394,7 @@ Al arrancar, los DataLoaders siembran automáticamente:
 
 ---
 
-## 🧠 Lo que aprendí
+## 🧠 Lo que aprendí:
 
 Este proyecto me llevó bastante más allá de lo que vimos en clase. Cosas que aprendí investigando y equivocándome:
 
