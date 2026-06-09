@@ -34,7 +34,6 @@ public class DataLoader implements CommandLineRunner {
 
         log.info("Seeding Madrid nightlife data...");
 
-        // Venues
         Venue wizink     = venueRepository.save(new Venue(null, "WiZink Center",           "Madrid", 15000, null));
         Venue laRiviera  = venueRepository.save(new Venue(null, "Sala La Riviera",         "Madrid",  2500, null));
         Venue barcelo    = venueRepository.save(new Venue(null, "Teatro Barceló",          "Madrid",  1500, null));

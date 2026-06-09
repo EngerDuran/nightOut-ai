@@ -18,17 +18,15 @@ import java.util.List;
 @RequiredArgsConstructor
 public class TicketController {
 
-    // Servicios inyectados necesarios para realizar las operaciones
+
     private final TicketService ticketService;
     private final EventService eventService;
-    private final VenueService venueService; // necesario para resolver el Evento desde el ID
+    private final VenueService venueService;
 
 
     @PostMapping
     public ResponseEntity<Ticket> createTicket(@RequestBody TicketRequestDTO dto) {
-        // El servicio ya se encarga de la lógica, transaccionalidad y las excepciones.
         Ticket createdTicket = ticketService.addTicket(dto);
-
 
         return ResponseEntity.status(HttpStatus.CREATED).body(createdTicket);
     }

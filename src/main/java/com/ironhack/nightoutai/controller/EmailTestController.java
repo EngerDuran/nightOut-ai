@@ -16,23 +16,10 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 /**
- * ============================================================
- * EMAIL TEST CONTROLLER — Probar el sistema de correos
- * ============================================================
- *
- * ¿Para qué sirve este controlador?
- *
  * 1. POST /api/notifications/test-recommend
  *    → Envía YA MISMO un correo de recomendación al usuario
  *      que está autenticado. No necesitas esperar al lunes.
- *
- * 2. GET /api/notifications/my-history
- *    → Muestra todos los correos que te ha enviado el sistema.
- *      Útil para la demo: "Mira, aquí están los correos".
- *
- * 3. GET /api/notifications/all
- *    → Solo ADMIN. Muestra todos los correos enviados a todos
- *      los usuarios. Para diagnóstico.
+
  *
  * 4. POST /api/notifications/trigger-weekly
  *    → Solo ADMIN. Dispara el envío semanal manualmente
@@ -158,7 +145,6 @@ public class EmailTestController {
     @PostMapping("/trigger-weekly")
     public ResponseEntity<String> triggerWeekly() {
 
-        // Obtenemos todos los usuarios
         List<User> users = userRepository.findAll();
         int sentCount = 0;
 

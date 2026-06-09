@@ -49,7 +49,7 @@ public class EventController {
 
         Event event = eventService.findById(id);
 
-        return ResponseEntity.ok(event); // Devuelve un 200 con la lista
+        return ResponseEntity.ok(event);
 
     }
 
