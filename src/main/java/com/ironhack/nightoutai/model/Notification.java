@@ -8,10 +8,7 @@ import lombok.NoArgsConstructor;
 import java.time.LocalDateTime;
 
 /**
- * ============================================================
  * NOTIFICATION — Registro de correos electrónicos enviados
- * ============================================================
- *
  * ¿Qué es esto?
  * Cada vez que el sistema envíe un correo (automático o manual),
  * guardamos un registro aquí. Así podemos:

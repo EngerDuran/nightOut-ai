@@ -6,7 +6,7 @@
 ![MySQL](https://img.shields.io/badge/MySQL-8.0-4479A1?style=flat&logo=mysql&logoColor=white)
 ![JWT](https://img.shields.io/badge/JWT-Auth-000000?style=flat&logo=jsonwebtokens&logoColor=white)
 
-Backend REST API para descubrir eventos nocturnos en Madrid, comprar entradas con control de aforo en tiempo real y recibir recomendaciones personalizadas con Inteligencia Artificial.
+Backend REST API para descubrir eventos nocturnos en la Comunidad de Madrid, comprar entradas con control de aforo en tiempo real y recibir recomendaciones personalizadas con Inteligencia Artificial (Asistente RRPP).
 
 ---
 
@@ -83,23 +83,7 @@ El proyecto simula una aplicación de vida nocturna para la comunidad de Madrid,
 
 ## 📊 Diagrama de clases
 
-> ⚠️ **Pendiente:** Estoy terminando el diagrama UML en PlantUML. Lo subiré a `docs/uml/nightout-class-diagram.png` antes de la entrega.
-
-Mientras tanto, las entidades principales del modelo son:
-
-```
-User ──── Role (ManyToMany)
-Venue ──── Event (OneToMany)
-Event ──── Ticket (OneToMany)
-Ticket ──┬─ GeneralTicket (SINGLE_TABLE)
-          └─ VipTicket
-User ──── Booking (OneToMany)
-Ticket ──── Booking (OneToMany)
-Event ──── GuestList (OneToMany)
-User ──── Notification (OneToMany)
-```
-
----
+![Diagrama de clases NightOut AI](docs/uml/nightout-class-diagram.png)
 
 ## 🛠 Tecnologías utilizadas:
 
@@ -509,4 +493,4 @@ Este proyecto es un MVP funcional, pero hay muchas cosas que me gustaría mejora
 
 ---
 
-*Este proyecto fue desarrollado como trabajo final del bootcamp de Ironhack. Si llegaste hasta acá, ¡gracias por leer! Si tenés sugerencias o querés colaborar, cualquier issue o PR es bienvenido.* 🙌
+*Este proyecto fue desarrollado como trabajo final del bootcamp de Ironhack. Si llegaste hasta aquí, ¡de verdad muchas gracias por leer! Si tienes alguna sugerencia o quieres colaborar, cualquier issue o PR es bienvenido.* 🙌
