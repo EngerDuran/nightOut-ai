@@ -5,8 +5,8 @@ import com.ironhack.nightoutai.model.User;
 import com.ironhack.nightoutai.repository.NotificationRepository;
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
-import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
@@ -40,7 +40,6 @@ import java.time.LocalDateTime;
  * nosotros en EmailService lo detectamos con un try-catch.
  */
 @Service
-@RequiredArgsConstructor
 @Slf4j
 public class EmailService {
 
@@ -55,8 +54,14 @@ public class EmailService {
      * no tiene configurado el email, no queremos que la app
      * falle al arrancar. Simplemente no se enviarán correos.
      */
-    private final JavaMailSender mailSender;
+    @Autowired(required = false)
+    private JavaMailSender mailSender;
+
     private final NotificationRepository notificationRepository;
+
+    public EmailService(NotificationRepository notificationRepository) {
+        this.notificationRepository = notificationRepository;
+    }
 
     /**
      * ============================================================
@@ -82,6 +87,16 @@ public class EmailService {
      * y diagnosticar el problema sin buscar en logs.
      */
     public boolean sendEmail(String to, String subject, String body, User user, String type) {
+
+        // ============================================================
+        // 0. Verificar si el correo está configurado
+        // ============================================================
+        if (mailSender == null) {
+            log.warn("⚠️ JavaMailSender no está configurado. " +
+                    "Setéa MAIL_USERNAME y MAIL_PASSWORD para enviar correos reales.");
+            saveNotification(user, to, subject, body, type, "FAILED");
+            return false;
+        }
 
         // ============================================================
         // 1. Intentar enviar el correo
