@@ -484,6 +484,7 @@ Este proyecto es un MVP funcional, pero hay muchas cosas que me gustaría mejora
 - **Repositorio:** [github.com/EngerDuran/nightOut-ai](https://github.com/EngerDuran/nightOut-ai)
 - **GitHub Project:** [NightOut AI MVP Roadmap](https://github.com/users/EngerDuran/projects/1)
 - **Postman collection:** `postman-nightout-completo.json`
+- **Presentación Canva:** [https://www.canva.com/design/DAHMW6Cqqpg/1D1LXq32XLv7EAXINRVXGw/edit]
 
 ---
 
