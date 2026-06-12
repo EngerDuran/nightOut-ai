@@ -1,0 +1,136 @@
+{
+  "info": {
+    "name": "NightOut AI — Completo",
+    "description": "Coleccion completa para presentacion IronParty.\n\nORDEN: Login ADMIN → Demo IronParty (pasos 2→9).\nLos tokens se guardan solos.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "auth": { "type": "bearer", "bearer": [{"key": "token", "value": "{{token}}", "type": "string"}] },
+  "variable": [{"key": "token", "value": ""}],
+  "item": [
+    {
+      "name": "1. AUTH",
+      "item": [
+        {
+          "name": "1.1 Login ADMIN (Alex)",
+          "event": [{"listen": "test", "script": {"exec": ["var j=pm.response.json();if(j.access_token){pm.collectionVariables.set('token',j.access_token);}"], "type": "text/javascript"}}],
+          "request": {"method": "POST", "header": [{"key": "Content-Type", "value": "application/json"}], "body": {"mode": "raw", "raw": "{\"username\":\"alex.garrido@nightout.ai\",\"password\":\"Kapital2026!\"}"}, "url": "http://localhost:8080/api/login"}
+        },
+        {
+          "name": "1.2 Login USER (Carlos)",
+          "event": [{"listen": "test", "script": {"exec": ["var j=pm.response.json();if(j.access_token){pm.collectionVariables.set('token',j.access_token);}"], "type": "text/javascript"}}],
+          "request": {"method": "POST", "header": [{"key": "Content-Type", "value": "application/json"}], "body": {"mode": "raw", "raw": "{\"username\":\"carlos.perez@gmail.com\",\"password\":\"Carlos2026!\"}"}, "url": "http://localhost:8080/api/login"}
+        },
+        {
+          "name": "1.3 Login USER (Lucia)",
+          "event": [{"listen": "test", "script": {"exec": ["var j=pm.response.json();if(j.access_token){pm.collectionVariables.set('token',j.access_token);}"], "type": "text/javascript"}}],
+          "request": {"method": "POST", "header": [{"key": "Content-Type", "value": "application/json"}], "body": {"mode": "raw", "raw": "{\"username\":\"lucia.ortiz@gmail.com\",\"password\":\"LuciaO99!\"}"}, "url": "http://localhost:8080/api/login"}
+        }
+      ]
+    },
+    {
+      "name": "2. VENUES",
+      "item": [
+        {"name": "2.1 List all venues", "request": {"method": "GET", "url": "http://localhost:8080/api/venues"}},
+        {"name": "2.2 Get venue by ID", "request": {"method": "GET", "url": "http://localhost:8080/api/venues/1"}},
+        {"name": "2.3 Filter by location", "request": {"method": "GET", "url": "http://localhost:8080/api/venues/location/Madrid"}},
+        {"name": "2.4 Create venue", "request": {"method": "POST", "header": [{"key": "Content-Type", "value": "application/json"}], "body": {"mode": "raw", "raw": "{\"name\":\"Sala Demo\",\"location\":\"Madrid\",\"capacity\":500}"}, "url": "http://localhost:8080/api/venues"}},
+        {"name": "2.5 Update venue", "request": {"method": "PUT", "header": [{"key": "Content-Type", "value": "application/json"}], "body": {"mode": "raw", "raw": "{\"name\":\"Sala Demo VIP\",\"location\":\"Madrid Centro\",\"capacity\":600}"}, "url": "http://localhost:8080/api/venues/11"}},
+        {"name": "2.6 Delete venue", "request": {"method": "DELETE", "url": "http://localhost:8080/api/venues/11"}}
+      ]
+    },
+    {
+      "name": "3. EVENTS",
+      "item": [
+        {"name": "3.1 List all events", "request": {"method": "GET", "url": "http://localhost:8080/api/events"}},
+        {"name": "3.2 Get event by ID", "request": {"method": "GET", "url": "http://localhost:8080/api/events/1"}},
+        {"name": "3.3 Create event", "request": {"method": "POST", "header": [{"key": "Content-Type", "value": "application/json"}], "body": {"mode": "raw", "raw": "{\"name\":\"Noche de Techno\",\"date\":\"2026-06-20T23:00:00\",\"venueId\":1,\"genre\":\"Techno\",\"dressCode\":\"Casual\"}"}, "url": "http://localhost:8080/api/events"}},
+        {"name": "3.4 Update event", "request": {"method": "PUT", "header": [{"key": "Content-Type", "value": "application/json"}], "body": {"mode": "raw", "raw": "{\"id\":11,\"name\":\"Noche de Techno Actualizada\",\"date\":\"2026-06-21T23:00:00\",\"venueId\":1,\"genre\":\"Techno\",\"dressCode\":\"Fiesta\"}"}, "url": "http://localhost:8080/api/events/11"}},
+        {"name": "3.5 Delete event", "request": {"method": "DELETE", "url": "http://localhost:8080/api/events/11"}}
+      ]
+    },
+    {
+      "name": "4. TICKETS",
+      "item": [
+        {"name": "4.1 List all tickets", "request": {"method": "GET", "url": "http://localhost:8080/api/tickets"}},
+        {"name": "4.2 Get ticket by ID", "request": {"method": "GET", "url": "http://localhost:8080/api/tickets/1"}},
+        {"name": "4.3 Create ticket", "request": {"method": "POST", "header": [{"key": "Content-Type", "value": "application/json"}], "body": {"mode": "raw", "raw": "{\"eventId\":1,\"price\":20.0}"}, "url": "http://localhost:8080/api/tickets"}},
+        {"name": "4.4 Update ticket", "request": {"method": "PUT", "header": [{"key": "Content-Type", "value": "application/json"}], "body": {"mode": "raw", "raw": "{\"eventId\":1,\"price\":25.0}"}, "url": "http://localhost:8080/api/tickets/21"}},
+        {"name": "4.5 Delete ticket", "request": {"method": "DELETE", "url": "http://localhost:8080/api/tickets/21"}}
+      ]
+    },
+    {
+      "name": "5. BOOKINGS",
+      "item": [
+        {"name": "5.1 List all bookings", "request": {"method": "GET", "url": "http://localhost:8080/api/bookings"}},
+        {"name": "5.2 Get booking by ID", "request": {"method": "GET", "url": "http://localhost:8080/api/bookings/1"}},
+        {"name": "5.3 Create booking", "request": {"method": "POST", "header": [{"key": "Content-Type", "value": "application/json"}], "body": {"mode": "raw", "raw": "{\"ticketId\":1,\"quantity\":2,\"paymentMethod\":\"TARJETA\"}"}, "url": "http://localhost:8080/api/bookings"}},
+        {"name": "5.4 Update booking", "request": {"method": "PUT", "header": [{"key": "Content-Type", "value": "application/json"}], "body": {"mode": "raw", "raw": "{\"ticketId\":1,\"quantity\":3,\"paymentMethod\":\"EFECTIVO\"}"}, "url": "http://localhost:8080/api/bookings/1"}},
+        {"name": "5.5 Cancel booking", "request": {"method": "DELETE", "url": "http://localhost:8080/api/bookings/1"}}
+      ]
+    },
+    {
+      "name": "6. AI / CHAT",
+      "item": [
+        {"name": "6.1 Chat simple (sin memoria)", "request": {"method": "GET", "url": "http://localhost:8080/chat/ask?question=Que%20planes%20hay%20para%20este%20finde%3F"}},
+        {"name": "6.2 Chat con memoria", "request": {"method": "GET", "url": "http://localhost:8080/chat/chatbot/1?message=Hola%2C%20que%20fiestas%20hay%20en%20Madrid%3F"}},
+        {"name": "6.3 Chat continuar", "request": {"method": "GET", "url": "http://localhost:8080/chat/chatbot/1?message=Cuentame%20mas%20sobre%20esa"}},
+        {"name": "6.4 RRPP recomendar (sin memoria)", "request": {"method": "GET", "url": "http://localhost:8080/event-chat/recommend?message=Busco%20un%20plan%20para%20el%20finde%20con%20musica%20reggaeton"}},
+        {"name": "6.5 RRPP conversacion (CON memoria)", "request": {"method": "GET", "url": "http://localhost:8080/event-chat/chat/1?message=Hola%2C%20que%20fiestas%20me%20recomiendas%20para%20este%20finde%3F"}},
+        {"name": "6.6 RRPP seguir", "request": {"method": "GET", "url": "http://localhost:8080/event-chat/chat/1?message=Cuentame%20mas%20sobre%20el%20ambiente"}}
+      ]
+    },
+    {
+      "name": "7. NOTIFICACIONES / EMAIL",
+      "item": [
+        {"name": "7.1 Enviar recomendacion AHORA", "request": {"method": "GET", "url": "http://localhost:8080/api/notifications/test-recommend"}},
+        {"name": "7.2 Mi historial de correos", "request": {"method": "GET", "url": "http://localhost:8080/api/notifications/my-history"}},
+        {"name": "7.3 Todo el historial (ADMIN)", "request": {"method": "GET", "url": "http://localhost:8080/api/notifications/all"}},
+        {"name": "7.4 Simular envio semanal (ADMIN)", "request": {"method": "POST", "url": "http://localhost:8080/api/notifications/trigger-weekly"}}
+      ]
+    },
+    {
+      "name": "8. DEMO IRONPARTY",
+      "description": "Orden exacto de la presentacion.",
+      "item": [
+        {
+          "name": "PASO 1: Login ADMIN",
+          "event": [{"listen": "test", "script": {"exec": ["var j=pm.response.json();if(j.access_token){pm.collectionVariables.set('token',j.access_token);}"], "type": "text/javascript"}}],
+          "request": {"method": "POST", "header": [{"key": "Content-Type", "value": "application/json"}], "body": {"mode": "raw", "raw": "{\"username\":\"alex.garrido@nightout.ai\",\"password\":\"Kapital2026!\"}"}, "url": "http://localhost:8080/api/login"}
+        },
+        {
+          "name": "PASO 2: Crear VENUE Ironhack",
+          "request": {"method": "POST", "header": [{"key": "Content-Type", "value": "application/json"}], "body": {"mode": "raw", "raw": "{\"name\":\"Sala Ironhack Madrid\",\"location\":\"Madrid\",\"capacity\":300}"}, "url": "http://localhost:8080/api/venues"}
+        },
+        {
+          "name": "PASO 3: Crear IRONPARTY",
+          "request": {"method": "POST", "header": [{"key": "Content-Type", "value": "application/json"}], "body": {"mode": "raw", "raw": "{\"name\":\"IronParty - Fiesta de Fin de Grado\",\"date\":\"2026-06-12T22:00:00\",\"venueId\":9,\"genre\":\"Reggaeton\",\"dressCode\":\"Fiesta\"}"}, "url": "http://localhost:8080/api/events"}
+        },
+        {
+          "name": "PASO 4: Ticket GENERAL",
+          "request": {"method": "POST", "header": [{"key": "Content-Type", "value": "application/json"}], "body": {"mode": "raw", "raw": "{\"eventId\":11,\"price\":15.0}"}, "url": "http://localhost:8080/api/tickets"}
+        },
+        {
+          "name": "PASO 5: Ticket VIP",
+          "request": {"method": "POST", "header": [{"key": "Content-Type", "value": "application/json"}], "body": {"mode": "raw", "raw": "{\"eventId\":11,\"price\":35.0}"}, "url": "http://localhost:8080/api/tickets"}
+        },
+        {
+          "name": "PASO 6: Login USER Carlos",
+          "event": [{"listen": "test", "script": {"exec": ["var j=pm.response.json();if(j.access_token){pm.collectionVariables.set('token',j.access_token);}"], "type": "text/javascript"}}],
+          "request": {"method": "POST", "header": [{"key": "Content-Type", "value": "application/json"}], "body": {"mode": "raw", "raw": "{\"username\":\"carlos.perez@gmail.com\",\"password\":\"Carlos2026!\"}"}, "url": "http://localhost:8080/api/login"}
+        },
+        {
+          "name": "PASO 7: RRPP recomienda",
+          "request": {"method": "GET", "url": "http://localhost:8080/event-chat/chat/1?message=Quiero%20salir%20de%20fiesta%20este%20finde%2C%20que%20me%20recomiendas%3F"}
+        },
+        {
+          "name": "PASO 8: RRPP + EMAILS",
+          "request": {"method": "GET", "url": "http://localhost:8080/event-chat/chat/1?message=Apuntame%20a%20mi%20(carlos.perez%40gmail.com)%20y%20a%20Luci%20(lucia.ortiz%40gmail.com)%20en%20IronParty"}
+        },
+        {
+          "name": "PASO 9: Ver historial",
+          "request": {"method": "GET", "url": "http://localhost:8080/api/notifications/my-history"}
+        }
+      ]
+    }
+  ]
+}

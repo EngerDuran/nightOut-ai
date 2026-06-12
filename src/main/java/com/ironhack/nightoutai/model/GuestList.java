@@ -20,6 +20,8 @@ public class GuestList {
 
     private String guestName;
 
+    private String guestEmail;
+
     @ManyToOne
     @JoinColumn(name = "event_id")
     private Event event;

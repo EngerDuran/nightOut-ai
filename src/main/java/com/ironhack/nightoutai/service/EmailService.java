@@ -8,6 +8,8 @@ import jakarta.mail.internet.MimeMessage;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.SimpleMailMessage;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
@@ -143,6 +145,41 @@ public class EmailService {
 
     /**
      * ============================================================
+     * sendEmail — Para destinatarios NO registrados en el sistema
+     * ============================================================
+     *
+     * Igual que sendEmail() pero sin asociar a un User en BD.
+     * Útil cuando el RRPP envía confirmación a gente que no tiene
+     * cuenta en NightOut (ej: amigos que invitan).
+     */
+    public boolean sendEmail(String to, String subject, String body, String type) {
+        if (mailSender == null) {
+            log.warn("⚠️ JavaMailSender no está configurado.");
+            saveNotification(null, to, subject, body, type, "FAILED");
+            return false;
+        }
+
+        try {
+            MimeMessage message = mailSender.createMimeMessage();
+            MimeMessageHelper helper = new MimeMessageHelper(message, true, "UTF-8");
+            helper.setTo(to);
+            helper.setSubject(subject);
+            helper.setText(body, true);
+            mailSender.send(message);
+
+            log.info("✅ Correo enviado a {}: {}", to, subject);
+            saveNotification(null, to, subject, body, type, "SENT");
+            return true;
+
+        } catch (Exception e) {
+            log.error("❌ Error al enviar correo a {}: {}", to, e.getMessage());
+            saveNotification(null, to, subject, body, type, "FAILED");
+            return false;
+        }
+    }
+
+    /**
+     * ============================================================
      * sendSimpleEmail — Versión simple sin HTML
      * ============================================================
      *
@@ -185,7 +222,8 @@ public class EmailService {
      * - Para la demo: mostrar "Mira, aquí están los correos que
      *   el sistema está mandando automáticamente"
      */
-    private void saveNotification(User user, String to, String subject,
+    @Transactional(propagation = Propagation.REQUIRES_NEW)
+    public void saveNotification(User user, String to, String subject,
                                    String body, String type, String status) {
         Notification notification = new Notification();
         notification.setUser(user);

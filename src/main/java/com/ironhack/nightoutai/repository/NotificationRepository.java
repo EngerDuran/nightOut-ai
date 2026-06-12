@@ -42,4 +42,11 @@ public interface NotificationRepository extends JpaRepository<Notification, Long
      * Cuenta cuántas notificaciones se han enviado a un usuario.
      */
     long countByUserId(Long userId);
+
+    /**
+     * Busca notificaciones por dirección de email del destinatario.
+     * Útil cuando el destinatario no es un usuario registrado pero
+     * queremos mostrar sus correos igualmente.
+     */
+    List<Notification> findByRecipientEmail(String recipientEmail);
 }

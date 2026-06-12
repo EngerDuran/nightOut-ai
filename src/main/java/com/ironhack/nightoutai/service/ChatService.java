@@ -3,6 +3,7 @@ package com.ironhack.nightoutai.service;
 import org.springframework.ai.chat.client.ChatClient;
 import org.springframework.ai.chat.client.advisor.MessageChatMemoryAdvisor;
 import org.springframework.ai.chat.memory.ChatMemory;
+import org.springframework.ai.chat.model.ChatModel;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -12,11 +13,12 @@ public class ChatService {
     private final ChatClient chatClientWithMemory;
     private final ChatMemory chatMemory;
 
-    public ChatService(ChatClient.Builder chatClientBuilder, ChatMemory chatMemory) {
-        this.chatClient = chatClientBuilder.build();
-        this.chatClientWithMemory = chatClientBuilder
-                .defaultAdvisors(MessageChatMemoryAdvisor.builder(chatMemory)
-                        .build()).build();
+    public ChatService(ChatModel chatModel, ChatMemory chatMemory) {
+        // Usamos ChatModel directamente para tener builders independientes
+        this.chatClient = ChatClient.builder(chatModel).build();
+        this.chatClientWithMemory = ChatClient.builder(chatModel)
+                .defaultAdvisors(MessageChatMemoryAdvisor.builder(chatMemory).build())
+                .build();
         this.chatMemory = chatMemory;
     }
 

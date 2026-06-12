@@ -104,11 +104,34 @@ public class EmailTestController {
         User user = userRepository.findByUsername(username);
 
         if (user == null) {
-            return ResponseEntity.badRequest().build();
+            // Si el usuario no existe en BD, buscar por email directamente
+            List<Notification> byEmail = notificationRepository.findByRecipientEmail(username);
+            return ResponseEntity.ok(byEmail);
         }
 
-        List<Notification> notifications = notificationRepository.findByUserId(user.getId());
-        return ResponseEntity.ok(notifications);
+        // Buscar por user_id Y también por email directo (por si alguna
+        // notificación se guardó sin asociar al usuario)
+        List<Notification> byUser = notificationRepository.findByUserId(user.getId());
+        List<Notification> byEmail = notificationRepository.findByRecipientEmail(username);
+
+        // Combinar ambas listas sin duplicados
+        java.util.Set<Long> seenIds = new java.util.HashSet<>();
+        java.util.List<Notification> combined = new java.util.ArrayList<>();
+
+        for (Notification n : byUser) {
+            seenIds.add(n.getId());
+            combined.add(n);
+        }
+        for (Notification n : byEmail) {
+            if (!seenIds.contains(n.getId())) {
+                combined.add(n);
+            }
+        }
+
+        // Ordenar por fecha descendente
+        combined.sort((a, b) -> b.getSentAt().compareTo(a.getSentAt()));
+
+        return ResponseEntity.ok(combined);
     }
 
     /**

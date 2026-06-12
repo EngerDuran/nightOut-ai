@@ -2,6 +2,7 @@ package com.ironhack.nightoutai.controller;
 
 import com.ironhack.nightoutai.service.EventChatService;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -18,5 +19,11 @@ public class EventChatController {
     @GetMapping("/recommend")
     public String recommend(@RequestParam String message) {
         return eventChatService.recommend(message);
+    }
+
+    @GetMapping("/chat/{conversationId}")
+    public String recommendChat(@PathVariable String conversationId,
+                                @RequestParam String message) {
+        return eventChatService.recommendChat(conversationId, message);
     }
 }

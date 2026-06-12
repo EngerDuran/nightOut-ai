@@ -32,5 +32,8 @@ build/
 ### VS Code ###
 .vscode/
 
+# macOS
+.DS_Store
+
 # Gentle AI registry
 .atl/
