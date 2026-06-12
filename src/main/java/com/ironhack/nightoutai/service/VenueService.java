@@ -34,12 +34,10 @@ public class VenueService {
         // 1. Buscamos en el repositorio
         List<Venue> venues = venueRepository.findByLocation(location);
 
-        // 2. Validamos
         if (venues.isEmpty()) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "No venues found at this location: " + location);
         }
 
-        // 3. Si hay resultados, los devolvemos
         return venues;
     }
 
@@ -57,7 +55,6 @@ public class VenueService {
 
     public Venue updateVenue(Long id, VenueRequestDTO dto) {
 
-        //Buscamos si el venue existe
         Venue existingVenue = findById(id);
 
         existingVenue.setName(dto.getName());
@@ -67,9 +64,9 @@ public class VenueService {
     }
 
     public void validateCapacity(Venue venue, int newParticipants) {
-        //Obtenemos capacidad máxima del venue
+
         int maxCapacity = venue.getCapacity();
-        //Obtenemos cuantos están ocupando el venue
+
         int currentOcupancy = calculateCurrentOcupancy(venue);
 
         if (currentOcupancy + newParticipants > maxCapacity) {
@@ -78,8 +75,7 @@ public class VenueService {
     }
 
     private int calculateCurrentOcupancy(Venue venue) {
-        // buscamos todos los eventos de este venue (Hacer metodo en eventrepo luego)
-        // y sumar la cantidad de personas
+
         return eventRepository.findByVenue(venue).size();
     }
 

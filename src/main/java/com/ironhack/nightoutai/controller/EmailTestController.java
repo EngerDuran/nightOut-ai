@@ -15,16 +15,6 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-/**
- * 1. POST /api/notifications/test-recommend
- *    → Envía YA MISMO un correo de recomendación al usuario
- *      que está autenticado. No necesitas esperar al lunes.
-
- *
- * 4. POST /api/notifications/trigger-weekly
- *    → Solo ADMIN. Dispara el envío semanal manualmente
- *      (como si fuera lunes). Para testing.
- */
 @RestController
 @RequestMapping("/api/notifications")
 @RequiredArgsConstructor
@@ -35,18 +25,7 @@ public class EmailTestController {
     private final NotificationRepository notificationRepository;
     private final UserRepository userRepository;
 
-    /**
-     * ============================================================
-     * 1. TEST MANUAL — Enviar recomendación ahora mismo
-     * ============================================================
-     *
-     * Útil para la demo: "Mira, le pido al sistema que me mande
-     * las recomendaciones y en segundos llega el correo".
-     *
-     * Cómo probarlo en Postman:
-     * GET localhost:8080/api/notifications/test-recommend
-     * Authorization: Bearer {{token}}
-     */
+
     @GetMapping("/test-recommend")
     public ResponseEntity<String> testRecommendation() {
 
@@ -65,7 +44,6 @@ public class EmailTestController {
         // Construir HTML
         String htmlBody = recommendationService.buildRecommendationHtml(user, recommended);
 
-        // Enviar correo
         boolean sent = emailService.sendEmail(
                 user.getUsername(),
                 "🎉 NightOut AI — Tus recomendaciones personalizadas",
@@ -83,19 +61,7 @@ public class EmailTestController {
         }
     }
 
-    /**
-     * ============================================================
-     * 2. MI HISTORIAL — Ver mis correos recibidos
-     * ============================================================
-     *
-     * Muestra todos los correos que el sistema le ha enviado
-     * al usuario actual. Sirve para la demo:
-     * "Mira, aquí está el historial de todos los correos".
-     *
-     * Cómo probarlo en Postman:
-     * GET localhost:8080/api/notifications/my-history
-     * Authorization: Bearer {{token}}
-     */
+
     @GetMapping("/my-history")
     public ResponseEntity<List<Notification>> getMyHistory() {
 
@@ -109,8 +75,6 @@ public class EmailTestController {
             return ResponseEntity.ok(byEmail);
         }
 
-        // Buscar por user_id Y también por email directo (por si alguna
-        // notificación se guardó sin asociar al usuario)
         List<Notification> byUser = notificationRepository.findByUserId(user.getId());
         List<Notification> byEmail = notificationRepository.findByRecipientEmail(username);
 
@@ -128,7 +92,6 @@ public class EmailTestController {
             }
         }
 
-        // Ordenar por fecha descendente
         combined.sort((a, b) -> b.getSentAt().compareTo(a.getSentAt()));
 
         return ResponseEntity.ok(combined);

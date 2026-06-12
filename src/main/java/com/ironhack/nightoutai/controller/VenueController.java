@@ -22,7 +22,7 @@ public class VenueController {
         //Instanciamos la entidad
         Venue venue = new Venue();
 
-        //Mapeamos
+
         venue.setName(dto.getName());
         venue.setLocation(dto.getLocation());
         venue.setCapacity(dto.getCapacity());

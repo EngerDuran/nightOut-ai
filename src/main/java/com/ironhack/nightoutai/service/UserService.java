@@ -4,9 +4,6 @@ import com.ironhack.nightoutai.model.User;
 
 import java.util.List;
 
-/**
- * The UserServiceInterface is an interface that defines the methods that are available to perform operations on User entities.
- */
 public interface UserService {
 
     /**

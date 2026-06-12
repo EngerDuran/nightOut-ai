@@ -41,7 +41,7 @@ public class EventChatService {
                 """;
 
         // Usamos ChatModel directamente en vez de ChatClient.Builder
-        // para evitar que los advisors de otros servicios se filtren
+        // Se que los advisors de otros servicios se filtren
         this.chatClient = ChatClient.builder(chatModel)
                 .defaultSystem(systemPrompt)
                 .build();

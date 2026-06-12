@@ -29,7 +29,6 @@ public class BookingService {
     private final EventRepository eventRepository;
     private final UserRepository userRepository; //Inyectado para asociar el usuario del JWT
 
-    // 1. CREAR RESERVA (POST)
     @Transactional
     public Booking createBooking(Long ticketId, Integer quantity, String paymentMethod) {
         // Buscar el ticket con excepción limpia
@@ -55,7 +54,6 @@ public class BookingService {
             throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "User not valid.");
         }
 
-        // Instanciar y guardar la reserva
         Booking booking = new Booking();
         booking.setUser(user);
         booking.setTicket(ticket);
@@ -67,20 +65,19 @@ public class BookingService {
         return bookingRepository.save(booking);
     }
 
-    // 2. OBTENER TODAS LAS RESERVAS (GET)
     @Transactional(readOnly = true)
     public List<Booking> getAllBookings() {
         return bookingRepository.findAll();
     }
 
-    // 3. OBTENER RESERVA POR ID (GET por ID)
+
     @Transactional(readOnly = true)
     public Booking getBookingById(Long id) {
         return bookingRepository.findById(id)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Reservation not found with ID: " + id));
     }
 
-    // 4. ACTUALIZAR RESERVA (PUT)
+
     @Transactional
     public Booking updateBooking(Long id, com.ironhack.nightoutai.dto.BookingRequestDTO request) {
         Booking booking = getBookingById(id);

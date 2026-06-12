@@ -81,14 +81,12 @@ public class CustomAuthenticationFilter extends UsernamePasswordAuthenticationFi
      */
     @Override
     protected void successfulAuthentication(HttpServletRequest request, HttpServletResponse response, FilterChain chain, Authentication authentication) throws IOException, ServletException {
-        // Cast the authentication principal to spring security User object
         User user = (User) authentication.getPrincipal();
 
-        // Creating an HMAC256 (Hash-based Message Authentication Code using SHA-512 algorithm)
-        // encoded JWT with secret key
+
         Algorithm algorithm = Algorithm.HMAC256("secret".getBytes());
 
-        // Adding user details and roles to the token
+
         String access_token = JWT.create()
                 .withSubject(user.getUsername())
                 .withExpiresAt(new Date(System.currentTimeMillis() + 10 * 60 * 1000))
@@ -100,10 +98,9 @@ public class CustomAuthenticationFilter extends UsernamePasswordAuthenticationFi
         Map<String, String> tokens = new HashMap<>();
         tokens.put("access_token", access_token);
 
-        // Setting the response type to application/json
+
         response.setContentType(APPLICATION_JSON_VALUE);
 
-        // Writing the token as response
         new ObjectMapper().writeValue(response.getOutputStream(), tokens);
     }
 

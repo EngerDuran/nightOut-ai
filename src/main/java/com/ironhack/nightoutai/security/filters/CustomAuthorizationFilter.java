@@ -26,11 +26,8 @@ import static org.springframework.http.HttpHeaders.AUTHORIZATION;
 import static org.springframework.http.HttpStatus.FORBIDDEN;
 import static org.springframework.util.MimeTypeUtils.APPLICATION_JSON_VALUE;
 
-/**
- * CustomAuthorizationFilter is an implementation of OncePerRequestFilter to handle
- * authorization of a user to access the API endpoints.
- */
-@Slf4j // (Simple Logging Facade for Java) offers logging API which is more professional that simply sout
+
+@Slf4j // Mas profesional que sout
 public class CustomAuthorizationFilter extends OncePerRequestFilter {
 
     /**
@@ -44,23 +41,19 @@ public class CustomAuthorizationFilter extends OncePerRequestFilter {
      */
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
-        // If the request is for the API Login endpoint, pass the request to the next filter in the chain
         if (request.getServletPath().equals("/api/login")) {
             filterChain.doFilter(request, response);
         } else {
-            // If the request is not for the API Login endpoint, check if the request has the authorization header
             String authorizationHeader = request.getHeader(AUTHORIZATION);
             if (authorizationHeader != null && authorizationHeader.startsWith("Bearer ")) {
                 try {
-                    // If the authorization header is present, get the token
                     String token = authorizationHeader.substring("Bearer ".length());
                     Algorithm algorithm = Algorithm.HMAC256("secret".getBytes());
                     JWTVerifier verifier = JWT.require(algorithm).build();
 
-                    // Verify the token using HMAC256
+
                     DecodedJWT decodedJWT = verifier.verify(token);
 
-                    // Obtain user's name and roles from token
                     String username = decodedJWT.getSubject();
                     String[] roles = decodedJWT.getClaim("roles").asArray(String.class);
                     Collection<SimpleGrantedAuthority> authorities = new ArrayList<>();
@@ -68,18 +61,15 @@ public class CustomAuthorizationFilter extends OncePerRequestFilter {
                         authorities.add(new SimpleGrantedAuthority(role));
                     });
 
-                    // Create a new authentication token with the user's details and authorities and set it in the Security Context
                     UsernamePasswordAuthenticationToken authenticationToken =
                             new UsernamePasswordAuthenticationToken(username, null, authorities);
                     SecurityContextHolder.getContext().setAuthentication(authenticationToken);
 
-                    // Pass the request to the next filter in the chain
                     filterChain.doFilter(request, response);
 
                 } catch (Exception exception) {
                     log.error("Error logging in: {}", exception.getMessage());
 
-                    // If an error occurs during the authorization process, set the error message in the response header and return a Forbidden error status
                     response.setHeader("error", exception.getMessage());
                     response.setStatus(FORBIDDEN.value());
                     Map<String, String> error = new HashMap<>();
@@ -89,8 +79,6 @@ public class CustomAuthorizationFilter extends OncePerRequestFilter {
                 }
 
             } else {
-                // If the header does not contain "Bearer" or the header is null, then continue with the filter chain.
-                // for example for public endpoints, initial requests...
                 filterChain.doFilter(request, response);
             }
         }

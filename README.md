@@ -211,7 +211,8 @@ src/main/java/com/ironhack/nightoutai/
 |--------|------|-------------|
 | GET | `/chat/ask?question=` | Preguntar a la IA |
 | GET | `/chat/chatbot/{conversationId}?message=` | Chat con memoria |
-| GET | `/event-chat/recommend?message=` | RRPP virtual: recomendaciones + lista invitados |
+| GET | `/event-chat/recommend?message=` | RRPP virtual: recomendaciones y lista de invitados |
+| GET | `/event-chat/chat/{conversationId}?message=` | RRPP virtual con memoria conversacional |
 
 ### Notificaciones
 
@@ -482,7 +483,7 @@ Este proyecto es un MVP funcional, pero hay muchas cosas que me gustaría mejora
 
 - **Repositorio:** [github.com/EngerDuran/nightOut-ai](https://github.com/EngerDuran/nightOut-ai)
 - **GitHub Project:** [NightOut AI MVP Roadmap](https://github.com/users/EngerDuran/projects/1)
-- **Documentación adicional:** `docs/propuesta_proyecto_nightout_ai.pdf`
+- **Postman collection:** `postman-nightout-completo.json`
 
 ---
 

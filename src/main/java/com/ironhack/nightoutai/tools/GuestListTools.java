@@ -157,7 +157,7 @@ public class GuestListTools {
                             freeEntry ? "Entrada gratis 🎟️" : "Descuento en puerta 💵"
                     );
 
-                    // Buscar si este email pertenece a un usuario registrado (trim por si la IA añade espacios)
+                    // Buscar si este email pertenece a un usuario registrado
                     String cleanEmail = email.trim();
                     User registeredUser = userRepository.findByUsername(cleanEmail);
                     if (registeredUser != null) {
@@ -173,7 +173,6 @@ public class GuestListTools {
             }
         }
 
-        // Si NO se proporcionaron emails, enviar resumen al usuario autenticado (comportamiento anterior)
         if (!hasEmails) {
             try {
                 Authentication auth = SecurityContextHolder.getContext().getAuthentication();
@@ -234,7 +233,6 @@ public class GuestListTools {
             }
         }
 
-        // Construir respuesta
         String entryType = freeEntry ? "🎟️ ENTRADA GRATIS" : "💵 DESCUENTO EN PUERTA";
         String namesList = guestNames.stream()
                 .map(String::trim)

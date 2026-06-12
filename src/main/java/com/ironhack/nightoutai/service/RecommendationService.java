@@ -12,25 +12,7 @@ import java.time.LocalDateTime;
 import java.util.*;
 import java.util.stream.Collectors;
 
-/**
- * ============================================================
- * RECOMMENDATION SERVICE — Genera recomendaciones según el
- *                         historial de compras del usuario
- * ============================================================
- *
- * ¿Qué hace?
- * 1. Mira todas las reservas (bookings) que tiene un usuario
- * 2. Saca qué salas (venues) ha visitado
- * 3. Busca eventos FUTUROS en esas mismas salas
- * 4. Devuelve una lista de eventos recomendados
- *
- * Lógica de negocio:
- * "Si has comprado entradas para el Reggaetón Night en Kapital,
- *  te interesarán otros eventos en Kapital. Te los recomendamos."
- *
- * Esto se conoce como "recomendación basada en el histórico
- * de compras" (collaborative filtering simplificado).
- */
+
 @Service
 @RequiredArgsConstructor
 @Slf4j
@@ -39,54 +21,19 @@ public class RecommendationService {
     private final BookingRepository bookingRepository;
     private final EventRepository eventRepository;
 
-    /**
-     * ============================================================
-     * getRecommendedEventsForUser — Recomienda eventos a un usuario
-     * ============================================================
-     *
-     * @param user El usuario para el que generar recomendaciones
-     * @return Lista de eventos recomendados (futuros, en salas
-     *         donde el usuario ya ha comprado entradas)
-     *
-     * Flujo completo:
-     *
-     * 1. Buscar todas las reservas del usuario
-     *    └── bookingRepository.findByUserId(user.getId())
-     *
-     * 2. De esas reservas, extraer las salas (venues) únicas
-     *    └── Booking → Ticket → Event → Venue
-     *    └── Usamos un Set<Long> para no repetir salas
-     *
-     * 3. Buscar eventos FUTUROS en esas salas
-     *    └── eventRepository.findByVenueIdAndDateAfter()
-     *    └── Filtramos solo eventos que NO han pasado
-     *
-     * 4. Devolver la lista (ordenada por fecha, más próximos primero)
-     */
+
     public List<Event> getRecommendedEventsForUser(User user) {
 
-        // ============================================================
-        // Paso 1: Buscar todas las reservas del usuario
-        // ============================================================
+
         List<Booking> userBookings = bookingRepository.findByUserId(user.getId());
 
-        // Si el usuario no tiene reservas, no podemos recomendar nada
         if (userBookings.isEmpty()) {
             log.info("Usuario {} no tiene reservas previas", user.getUsername());
             return Collections.emptyList();
         }
 
-        // ============================================================
-        // Paso 2: Extraer los IDs de las salas que ha visitado
-        // ============================================================
-        //
-        // Booking → getTicket() → getEvent() → getVenue() → getId()
-        //
-        // Usamos Stream API de Java:
-        // - .stream() convierte la lista en un flujo de datos
-        // - .map() transforma cada booking en el ID de su venue
-        // - .collect(Collectors.toSet()) junta todo en un Set (sin duplicados)
-        //
+        //  Extraer los IDs de las salas que ha visitado
+
         Set<Long> visitedVenueIds = userBookings.stream()
                 .map(booking -> booking.getTicket().getEvent().getVenue().getId())
                 .collect(Collectors.toSet());
@@ -94,18 +41,14 @@ public class RecommendationService {
         log.info("Usuario {} ha visitado {} salas distintas: {}",
                 user.getUsername(), visitedVenueIds.size(), visitedVenueIds);
 
-        // ============================================================
-        // Paso 3: Buscar eventos futuros en esas salas
-        // ============================================================
+
         LocalDateTime now = LocalDateTime.now();
         List<Event> recommended = new ArrayList<>();
 
         for (Long venueId : visitedVenueIds) {
-            // Buscamos eventos cuyo venue sea el que visitó
-            // y cuya fecha sea posterior a ahora (futuro)
+
             List<Event> venueEvents = eventRepository.findByVenueIdAndDateAfter(venueId, now);
 
-            // Solo eventos CONFIRMED o SCHEDULED (no cancelados)
             for (Event event : venueEvents) {
                 if (event.getStatus() == EventStatus.CONFIRMED
                         || event.getStatus() == EventStatus.SCHEDULED) {
@@ -114,9 +57,8 @@ public class RecommendationService {
             }
         }
 
-        // ============================================================
-        // Paso 4: Ordenar por fecha (más próximo primero)
-        // ============================================================
+
+        //  Ordenar por fecha (más próximo primero)
         recommended.sort(Comparator.comparing(Event::getDate));
 
         log.info("Se generaron {} recomendaciones para el usuario {}",
@@ -126,20 +68,13 @@ public class RecommendationService {
     }
 
     /**
-     * ============================================================
      * buildRecommendationHtml — Genera el HTML del correo
-     * ============================================================
-     *
-     * No solo necesitamos los datos, sino también un correo
-     * bonito. Este método construye el HTML que se enviará.
-     *
      * @param user       Usuario que recibe las recomendaciones
      * @param events     Lista de eventos recomendados
      * @return String    HTML completo listo para enviar por email
      */
     public String buildRecommendationHtml(User user, List<Event> events) {
 
-        // Si no hay recomendaciones, devolvemos un mensaje amigable
         if (events.isEmpty()) {
             return """
                     <html>
@@ -153,9 +88,6 @@ public class RecommendationService {
                     """.formatted(user.getName());
         }
 
-        // ============================================================
-        // Construir el HTML con cada evento recomendado
-        // ============================================================
         StringBuilder eventsHtml = new StringBuilder();
 
         for (Event event : events) {
@@ -183,7 +115,6 @@ public class RecommendationService {
             ));
         }
 
-        // HTML completo del correo
         return """
                 <!DOCTYPE html>
                 <html>
@@ -218,18 +149,7 @@ public class RecommendationService {
     }
 
     /**
-     * ============================================================
      * getLowestPrice — Calcula el precio mínimo de un evento
-     * ============================================================
-     *
-     * Los tickets están en una lista dentro de Event... espera,
-     * Event NO tiene una lista de Tickets directamente.
-     *
-     * En realidad los tickets se guardan en TicketRepository
-     * con una relación ManyToOne a Event.
-     *
-     * Para simplificar, devolvemos un precio estimado según
-     * el género del evento (valores realistas de Madrid).
      */
     private double getLowestPrice(Event event) {
         // Precios estimados por género musical (los más comunes)

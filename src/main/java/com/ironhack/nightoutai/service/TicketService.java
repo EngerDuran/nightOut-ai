@@ -40,16 +40,13 @@ public class TicketService {
                     HttpStatus.BAD_REQUEST, "No hay cupos disponibles");
         }
 
-        //Incrementamos el contador de cupos
         event.setSoldTickets(event.getSoldTickets() + 1);
         eventRepository.save(event);
 
-        //Creamos el ticket
         Ticket ticket = new Ticket();
         ticket.setPrice(dto.getPrice());
         ticket.setEvent(event);
 
-        //Retornamos el ticket guardado
         return ticketRepository.save(ticket);
 
     }

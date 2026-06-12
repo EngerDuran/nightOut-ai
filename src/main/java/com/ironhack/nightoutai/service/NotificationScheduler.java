@@ -12,42 +12,7 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 /**
- * ============================================================
  * NOTIFICATION SCHEDULER — Envía correos automáticos cada semana
- * ============================================================
- *
- * ¿Qué hace?
- * - Cada lunes a las 10:00 AM, revisa TODOS los usuarios
- * - Para cada usuario, busca eventos recomendados según su
- *   historial de compras
- * - Si hay recomendaciones, envía un correo con los planes
- *
- * ¿Cómo funciona @Scheduled?
- * Es una anotación de Spring que ejecuta un método en un
- * horario específico. La expresión "cron" define cuándo:
- *
- *   ┌───────────── segundo (0-59)
- *   │  ┌───────────── minuto (0-59)
- *   │  │  ┌───────────── hora (0-23)
- *   │  │  │  ┌───────────── día del mes (1-31)
- *   │  │  │  │  ┌───────────── mes (1-12)
- *   │  │  │  │  │  ┌───────────── día de la semana (0-7, 0=domingo)
- *   │  │  │  │  │  │
- *   │  │  │  │  │  │
- *   0  0  10  *  *  1    → "A las 10:00 AM, solo los lunes"
- *
- * ¿Por qué @EnableScheduling en la clase?
- * Spring necesita que le digamos explícitamente
- * "voy a usar @Scheduled". Con esta anotación lo hacemos.
- *
- * ¿Para qué sirve en la demo?
- * Durante la presentación, puedes explicar:
- * "Cada lunes, el sistema analiza el historial de compras
- *  de los usuarios y les envía un correo personalizado con
- *  eventos recomendados en sus salas favoritas."
- *
- * Y para probarlo en vivo, puedes hacer clic en "test manual"
- * en lugar de esperar al lunes.
  */
 @Service
 @EnableScheduling
@@ -59,22 +24,7 @@ public class NotificationScheduler {
     private final RecommendationService recommendationService;
     private final EmailService emailService;
 
-    /**
-     * ============================================================
-     * sendWeeklyRecommendations — Tarea automática semanal
-     * ============================================================
-     *
-     * @Scheduled(cron = "0 0 10 * * MON")
-     * Se ejecuta: Todos los lunes a las 10:00 AM
-     *
-     * ¿Qué hace?
-     * 1. Obtiene todos los usuarios de la base de datos
-     * 2. Para cada usuario, genera recomendaciones
-     * 3. Si hay recomendaciones, envía un correo
-     *
-     * ¿Los lunes a las 10 AM? Sí, porque es cuando la gente
-     * planifica su fin de semana. Esto es marketing real.
-     */
+
     @Scheduled(cron = "0 0 10 * * MON")
     public void sendWeeklyRecommendations() {
 
@@ -91,12 +41,10 @@ public class NotificationScheduler {
             // Generar recomendaciones para este usuario
             List<Event> recommended = recommendationService.getRecommendedEventsForUser(user);
 
-            // El correo del usuario es su username (en este proyecto
-            // el username es el email, ej: "carlos.perez@gmail.com")
             String email = user.getUsername();
 
             if (!recommended.isEmpty()) {
-                // Construir el HTML del correo
+                // Construimos el HTML del correo
                 String htmlBody = recommendationService.buildRecommendationHtml(user, recommended);
 
                 // Enviar el correo

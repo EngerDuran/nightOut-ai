@@ -8,7 +8,7 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class ChatMemoryConfig {
 
-    //indicamos al sistema que debe gestionar un objeto, permitiendo que sea reutilizable  en otras partes de la aplicación
+    //indicamos al sistema que debe gestionar un objeto, permitiendo que sea reutilizable en otras partes de la aplicación
     @Bean
     public ChatMemory chatMemory() {
         return MessageWindowChatMemory.builder()

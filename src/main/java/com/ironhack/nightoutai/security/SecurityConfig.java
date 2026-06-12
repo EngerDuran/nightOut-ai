@@ -19,19 +19,15 @@ import static org.springframework.http.HttpMethod.GET;
 import static org.springframework.http.HttpMethod.POST;
 import static org.springframework.security.config.http.SessionCreationPolicy.STATELESS;
 
-/**
- * This is the main configuration class for security in the application. It enables web security,
- * sets up the password encoder, and sets up the security filter chain.
- */
+
 @Configuration
 @EnableWebSecurity // indicates it is a security config class using spring web security
 @RequiredArgsConstructor
 public class SecurityConfig {
 
-    // UserDetailsService is an interface provided by Spring Security that defines a way to retrieve user information
+
     private final UserDetailsService userDetailsService;
 
-    // Autowired instance of the AuthenticationManagerBuilder (provided by Spring Security)
     private final AuthenticationManagerBuilder authManagerBuilder;
 
 
@@ -56,10 +52,9 @@ public class SecurityConfig {
      */
     @Bean
     protected SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-        // CustomAuthenticationFilter instance created
+
         CustomAuthenticationFilter customAuthenticationFilter = new CustomAuthenticationFilter(authManagerBuilder.getOrBuild());
 
-        // set the URL that the filter should process
         customAuthenticationFilter.setFilterProcessesUrl("/api/login");
 
         http
@@ -78,13 +73,10 @@ public class SecurityConfig {
                         .requestMatchers(GET, "/api/events").hasAnyAuthority("ROLE_USER", "ROLE_ADMIN")
                         .anyRequest().authenticated());
 
-        // add the custom authentication filter to the http security object
         http.addFilter(customAuthenticationFilter);
 
-        // Add the custom authorization filter before the standard authentication filter.
         http.addFilterBefore(new CustomAuthorizationFilter(), UsernamePasswordAuthenticationFilter.class);
 
-        // Build the security filter chain to be returned.
         return http.build();
     }
 }
