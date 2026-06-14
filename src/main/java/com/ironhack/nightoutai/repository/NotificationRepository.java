@@ -13,7 +13,7 @@ public interface NotificationRepository extends JpaRepository<Notification, Long
 
     List<Notification> findByUserId(Long userId);
 
-    // Busca todas las notificaciones ordenadas por fecha descendente
+
     List<Notification> findAllByOrderBySentAtDesc();
 
     //Contador de noticificaciones

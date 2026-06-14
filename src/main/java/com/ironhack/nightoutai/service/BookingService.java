@@ -27,11 +27,12 @@ public class BookingService {
     private final BookingRepository bookingRepository;
     private final TicketRepository ticketRepository;
     private final EventRepository eventRepository;
-    private final UserRepository userRepository; //Inyectado para asociar el usuario del JWT
+    private final UserRepository userRepository;
 
     @Transactional
     public Booking createBooking(Long ticketId, Integer quantity, String paymentMethod) {
-        // Buscar el ticket con excepción limpia
+
+
         Ticket ticket = ticketRepository.findById(ticketId)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Ticket not found with ID:" + ticketId));
 
@@ -46,7 +47,7 @@ public class BookingService {
         event.setSoldTickets(event.getSoldTickets() + quantity);
         eventRepository.save(event);
 
-        // Obtener el usuario autenticado desde el contexto de Spring Security
+
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         String username = auth.getName();
         User user = userRepository.findByUsername(username);

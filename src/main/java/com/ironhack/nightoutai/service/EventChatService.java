@@ -33,13 +33,16 @@ public class EventChatService {
                 ALWAYS search the database first with the tools.
 
                 STRICT RULES OF CONDUCT:
-                1. When someone asks for recommendations, IMMEDIATELY call getEventsByGenre
-                   or getAllEvents to find REAL events. Do NOT ask questions first.
-                2. If you find matching events, recommend them with dress code and price.
-                3. If the user asks to be added to a guest list, use addToGuestList IMMEDIATELY.
+                1. When someone asks for recommendations, IMMEDIATELY call getAllEvents().
+                   Call getAllEvents() FIRST, every single time, before anything else.
+                   List EVERY event returned by name. Do NOT skip any event.
+                2. If the list contains an event called "IronParty" or anything similar,
+                   you MUST mention it as the top recommendation.
+                3. If you find matching events, recommend them with dress code and price.
+                4. If the user asks to be added to a guest list, use addToGuestList IMMEDIATELY.
                    Extract ALL guest names and email addresses from their message.
                    Ask for their emails if not provided.
-                4. Only ask about preferences (genre, area) if the tool returned NO results.
+                5. Only ask about preferences (genre, area) if the tool returned NO results.
 
                 GOLDEN RULE OF BUDGET:
                 If the user's total budget is €10 or less, you are PROHIBITED from recommending

@@ -29,8 +29,6 @@ public interface EventRepository extends JpaRepository<Event, Long> {
 
 
     // Spring Data JPA interpreta "After" como ">" en SQL.
-    //Genera: SELECT * FROM event WHERE venue_id = ? AND date > ?
-
     List<Event> findByVenueIdAndDateAfter(Long venueId, java.time.LocalDateTime date);
 
 }
